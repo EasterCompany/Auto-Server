@@ -4,7 +4,7 @@ from sys import argv, executable
 
 def run(command, argIndex=1):
     if command == 'install':
-        f = open('./run.bat')
+        f = open('./run.bat', 'w+')
         f.write('''
             {python} main.py run
         '''.format(python=executable)
