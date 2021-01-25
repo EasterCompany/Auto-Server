@@ -5,14 +5,9 @@ from sys import argv, executable
 def run(command, argIndex=1):
     if command == 'install':
         f = open('./run.bat', 'w+')
-        f.write('''
-            {python} main.py run
-        '''.format(python=executable)
-        )
+        f.write('{python} main.py run'.format(python=executable))
         f.close()
-    if command == 'run':
-        run(command='run', argIndex=1)
-        print('FILE IS RUN')
+        system('chmod +x run.bat')
 
 
 def read_arguments():
