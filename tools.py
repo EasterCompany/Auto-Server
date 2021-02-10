@@ -1,7 +1,7 @@
 # Standard Lib
 from sys import argv, path
 # Local Commands
-from .commands import install, update, branch, merge, commit
+from .commands import install, update, branch, merge, commit, push
 
 tools_path = '/'.join(__file__.split('/')[:-1])
 project_path = path[0]
@@ -72,6 +72,10 @@ def run_tool(command, index=0):
             else:
                 return commit.error_message(), exit()
             return commit.with_message(message, module), exit()
+
+    elif command == 'push':
+        push.all()
+
     else:
         help()
     return exit()
