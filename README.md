@@ -35,8 +35,8 @@ again or use the following command.
 
 # Update
 
-Update all your git repositories recursively including submodules and packages with a
-single command.
+Pull latest updates from all your git repositories recursively including submodules and
+packages with a single command.
 
 ```bash
 ./o update
@@ -49,15 +49,62 @@ for all your repositories and submodules with a single command.
 
 ## Enter Production Branches
 
+Switch all your repositories to production branches.
+
 ```bash
 ./o main
 ```
 
 ## Enter Development Branches
 
+Switch all your repositories to development branches.
+
 ```bash
 ./o dev
 ```
+
+# Commit Changes
+
+Commit your changes to a repository with a message.
+
+```bash
+./o -"repo" -"enter a meaningful message."
+```
+
+Where `repo` is a repository within your project. For example, `tools`.
+
+If you wish to update your parent repository and not submodule repository ignore the
+`repo` argument and instead use the following:
+
+```bash
+./o -"a meaningful message"
+```
+
+here is an example of the above commands:
+
+```bash
+./o -tools -added some new features
+```
+
+would make a commit to tools repository with the above message.
+
+```bash
+./o -updated tools
+```
+
+would make a commit to the parent repository with the message `updated tools`.
+
+# Pushing
+
+When you are ready to push all your changes to the parent repository & submodules
+you can use the following command:
+
+```bash
+./o push
+```
+
+If required you will need to enter a username & password for each repository that has been 
+pushed.
 
 # Help
 

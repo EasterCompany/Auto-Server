@@ -12,3 +12,14 @@ def with_message(message, module=None):
     ))
 
     return chdir(path[0])
+
+
+def error_message():
+    return print("""
+    `COMMIT` tool requires 2 arguments beggining with `-`
+
+        ./o commit -server  -message
+        ./o commit -clients -message
+        ./o commit -tools   -message
+    """
+    )

@@ -57,21 +57,21 @@ def run_tool(command, index=0):
 
     elif command == 'commit':
         if len_cmd_line > index + 1:
-            if arguments_remaining == 1:
-                module = None
-                message = ''.join(
-                    ' '.join(command_line[index + 1:]).split('-')[1:]
-                )
-            elif arguments_remaining >= 2:
+            if arguments_remaining < 2:
+                return commit.error_message(), exit()
+            else:
                 module = ''.join(
                     command_line[index + 1].split('-')[1:]
                 )
+                if module == 'server':
+                    module = None
+
                 message = ''.join(
                     ' '.join(command_line[index + 2:]).split('-')[1:]
                 )
-            else:
-                return commit.error_message(), exit()
-            return commit.with_message(message, module), exit()
+                return commit.with_message(message, module), exit()
+        else:
+            return commit.error_message(), exit()
 
     elif command == 'push':
         push.all()

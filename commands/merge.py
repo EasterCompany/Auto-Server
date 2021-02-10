@@ -16,7 +16,7 @@ def repo(wd=None):
 
 def error_message():
     return print("""
-    `MERGE` tool requires a argument beggining with `-`
+    `MERGE` tool requires an argument beggining with `-`
 
         ./o merge -all
         ./o merge -server
