@@ -78,6 +78,7 @@ def run_tool(command, index=0):
 
     else:
         help()
+
     return exit()
 
 
