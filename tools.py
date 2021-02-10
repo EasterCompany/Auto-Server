@@ -1,41 +1,89 @@
-from os import system, name as os
-from sys import argv, executable, path
+# Standard Lib
+from sys import argv, path
+# Local Commands
+from .commands import install, update, branch, merge, commit, push
 
-o_script = '''#!/bin/bash
-clear
-{python} main.py $1 $2 $3 $4 $5
-exit
-'''.format(python=executable)
-
-cmd_table = {
-    'install':
-        '''
-        Performs various one-time operations:
-            - creates the 'o script' file for this system.
-            - generates a '.secret' file for this system.
-        ''',
-}
+tools_path = '/'.join(__file__.split('/')[:-1])
+project_path = path[0]
+command_line = argv[2:]
+len_cmd_line = len(command_line)
 
 
 def help():
-    readme = open(path[0] + '/README.md')
+    readme = open(tools_path + '/README.md')
     print(readme.read())
     readme.close()
 
 
-def run(command):
+def run_tool(command, index=0):
+    arguments_remaining = 0
+
+    for arg in command_line[index + 1:]:
+        if arg.startswith('-'):
+            arguments_remaining += 1
+        else:
+            break
+
+    if command.startswith('-'):
+        return None
+
     if command == 'install':
-        f = open('./o', 'w+')
-        f.write(o_script)
-        f.close()
-        if os == 'posix':
-            system('chmod +x ./o')
-    else: help()
+        install.create_o_script()
+
+    elif command == 'update':
+        update.git_pull_all()
+
+    elif command == 'dev' or command == 'development':
+        branch.switch('dev')
+
+    elif command == 'main' or command == 'production':
+        branch.switch('main')
+
+    elif command == 'merge':
+        if len_cmd_line > index + 1:
+            argument = command_line[index + 1]
+            if argument.startswith('-'):
+                argument = ''.join(argument.split('-')[1:])
+                if argument == 'server':
+                    merge.repo(None)
+                elif argument == 'all':
+                    merge.repo(None)
+                    merge.repo('clients')
+                    merge.repo('tools')
+                else:
+                    merge.repo(argument)
+            else:
+                merge.error_message(), exit()
+
+    elif command == 'commit':
+        if len_cmd_line > index + 1:
+            if arguments_remaining < 2:
+                return commit.error_message(), exit()
+            else:
+                module = ''.join(
+                    command_line[index + 1].split('-')[1:]
+                )
+                if module == 'server':
+                    module = None
+
+                message = ''.join(
+                    ' '.join(command_line[index + 2:]).split('-')[1:]
+                )
+                return commit.with_message(message, module), exit()
+        else:
+            return commit.error_message(), exit()
+
+    elif command == 'push':
+        push.all()
+
+    else:
+        help()
+
     return exit()
 
 
-if __name__ == '__main__':
-    if len(argv) <= 1:
+def run():
+    if len(argv) <= 2:
         help()
     else:
-        [run(arg) for arg in argv[1:]]
+        [run_tool(arg, index) for index, arg in enumerate(command_line)]
