@@ -2,4 +2,4 @@ from os import system
 
 
 def all():
-    return system('git push --recurse-submodules')
+    return system('git push --recurse-submodules=on-demand')
