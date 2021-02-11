@@ -68,31 +68,24 @@ Switch all your repositories to development branches.
 Commit your changes to a repository with a message.
 
 ```bash
-./o -"repo" -"enter a meaningful message."
+./o commit -"repo" -"enter a meaningful message."
 ```
 
 Where `repo` is a repository within your project. For example, `tools`.
 
-If you wish to update your parent repository and not submodule repository ignore the
-`repo` argument and instead use the following:
+here is an example of the above command for each of the possible repositories:
 
 ```bash
-./o -"a meaningful message"
+./o commit -clients -"added some new features"
+./o commit -tools -"added some new features"
+./o commit -server -"updated clients & tools"
 ```
 
-here is an example of the above commands:
+would make a commit to the tools & clients repositories with the above messages and then
+commit to the server (parent repository) with the message "updated clients & tools".
 
-```bash
-./o -tools -added some new features
-```
-
-would make a commit to tools repository with the above message.
-
-```bash
-./o -updated tools
-```
-
-would make a commit to the parent repository with the message `updated tools`.
+You are not required to use qoutes around your messages although if you want to use syntax
+from bash commands inside your string you will need to use them. Such as the `&` operator.
 
 # Pushing
 
@@ -103,8 +96,33 @@ you can use the following command:
 ./o push
 ```
 
-If required you will need to enter a username & password for each repository that has been 
+If required you will need to enter a username & password for each repository that has been
 pushed.
+
+# Merging
+
+When you are ready to merge all your changes from the Development branch into the
+production branch for a repository.
+
+```bash
+./o merge -"repo"
+```
+
+where `repo` is the name of the repository according the following examples;
+
+```bash
+./o merge -server
+./o merge -clients
+./o merge -tools
+```
+
+or you can use the following command:
+
+```bash
+./o merge -all
+```
+
+to merge all the changes from the development branch into each production branch.
 
 # Help
 
