@@ -42,9 +42,9 @@ def run_tool(command, index=0):
                 if repo == 'all':
                     print('\nTools --------------------------------')
                     module.with_message(message, 'tools')
-                    print('Clients ------------------------------')
+                    print('\nClients ------------------------------')
                     module.with_message(message, 'clients')
-                    print('Server -------------------------------')
+                    print('\nServer -------------------------------')
                     module.with_message(message, None)
                     print('')
                     return exit()
