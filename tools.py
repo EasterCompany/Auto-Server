@@ -32,12 +32,19 @@ def run_tool(command, index=0):
                 repo = ''.join(
                     command_line[index + 1].split('-')[1:]
                 )
-                if repo == 'server':
-                    repo = None
-
                 message = ''.join(
                     ' '.join(command_line[index + 2:]).split('-')[1:]
                 )
+
+                if repo == 'server':
+                    repo = None
+
+                if repo == 'all':
+                    module.with_message(message, None)
+                    module.with_message(message, 'tools')
+                    module.with_message(message, 'clients')
+                    return exit()
+
                 return module.with_message(message, repo), exit()
         else:
             return module.error_message(), exit()
