@@ -24,6 +24,24 @@ def run_tool(command, index=0):
         else:
             break
 
+    def do_with_message(module):
+        if len_cmd_line > index + 1:
+            if arguments_remaining < 2:
+                return module.error_message(), exit()
+            else:
+                repo = ''.join(
+                    command_line[index + 1].split('-')[1:]
+                )
+                if repo == 'server':
+                    repo = None
+
+                message = ''.join(
+                    ' '.join(command_line[index + 2:]).split('-')[1:]
+                )
+                return module.with_message(message, repo), exit()
+        else:
+            return module.error_message(), exit()
+
     if command.startswith('-'):
         return None
 
@@ -40,38 +58,10 @@ def run_tool(command, index=0):
         branch.switch('main')
 
     elif command == 'merge':
-        if len_cmd_line > index + 1:
-            argument = command_line[index + 1]
-            if argument.startswith('-'):
-                argument = ''.join(argument.split('-')[1:])
-                if argument == 'server':
-                    merge.repo(None)
-                elif argument == 'all':
-                    merge.repo(None)
-                    merge.repo('clients')
-                    merge.repo('tools')
-                else:
-                    merge.repo(argument)
-            else:
-                merge.error_message(), exit()
+        do_with_message(merge)
 
     elif command == 'commit':
-        if len_cmd_line > index + 1:
-            if arguments_remaining < 2:
-                return commit.error_message(), exit()
-            else:
-                module = ''.join(
-                    command_line[index + 1].split('-')[1:]
-                )
-                if module == 'server':
-                    module = None
-
-                message = ''.join(
-                    ' '.join(command_line[index + 2:]).split('-')[1:]
-                )
-                return commit.with_message(message, module), exit()
-        else:
-            return commit.error_message(), exit()
+        do_with_message(commit)
 
     elif command == 'push':
         push.all()
