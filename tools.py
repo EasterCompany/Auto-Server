@@ -40,9 +40,13 @@ def run_tool(command, index=0):
                     repo = None
 
                 if repo == 'all':
+                    print('\nTools --------------------------------')
                     module.with_message(message, 'tools')
+                    print('Clients ------------------------------')
                     module.with_message(message, 'clients')
+                    print('Server -------------------------------')
                     module.with_message(message, None)
+                    print('')
                     return exit()
 
                 return module.with_message(message, repo), exit()
