@@ -9,7 +9,7 @@ def repo(wd=None):
     system("git checkout main")
     system("git pull origin main")
     system("git merge dev")
-    system("git push origin master")
+    system("git push origin main")
 
     return chdir(path[0])
 
