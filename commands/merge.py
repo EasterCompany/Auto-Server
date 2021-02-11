@@ -1,5 +1,5 @@
-from os import system, chdir
 from sys import path
+from os import system, chdir
 
 
 def repo(wd=None):

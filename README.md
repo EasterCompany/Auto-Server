@@ -33,6 +33,11 @@ again or use the following command.
 ./o install
 ```
 
+The install command with also set the origins of your development and production branch to
+the same origin for each `dev -> dev` and `main -> main` for each of your repositories. If
+you need to change the origin - make sure you reset the origin to Overlord-Tools default
+setting by running the install command again.
+
 # Update
 
 Pull latest updates from all your git repositories recursively including submodules and
@@ -76,8 +81,8 @@ Where `repo` is a repository within your project. For example, `tools`.
 here is an example of the above command for each of the possible repositories:
 
 ```bash
-./o commit -clients -"added some new features"
-./o commit -tools -"added some new features"
+./o commit -clients -"fixed some bug"
+./o commit -tools -"fixed some bug"
 ./o commit -server -"updated clients & tools"
 ```
 
@@ -105,15 +110,15 @@ When you are ready to merge all your changes from the Development branch into th
 production branch for a repository.
 
 ```bash
-./o merge -"repo"
+./o merge -"repo" -"message"
 ```
 
 where `repo` is the name of the repository according the following examples;
 
 ```bash
-./o merge -server
-./o merge -clients
-./o merge -tools
+./o merge -server -"updated clients & tools"
+./o merge -clients -"added some feature"
+./o merge -tools -"added some feature"
 ```
 
 or you can use the following command:

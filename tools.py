@@ -47,6 +47,15 @@ def run_tool(command, index=0):
 
     if command == 'install':
         install.create_o_script()
+        update.git_pull_all()
+
+        def set_branch_origins(repo=None):
+            update.git_branch_origins('dev', repo)
+            update.git_branch_origins('main', repo)
+
+        set_branch_origins()
+        set_branch_origins('clients')
+        set_branch_origins('tools')
 
     elif command == 'update':
         update.git_pull_all()
