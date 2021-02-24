@@ -81,6 +81,8 @@ def run_tool(command, index=0):
 
     elif command == 'push': push.all()
 
+    elif command == 'new_secret_key': django.new_secret_key.make()
+
     else: help()
 
     return exit()
