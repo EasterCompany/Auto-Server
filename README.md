@@ -6,7 +6,7 @@ This an open source tool package by Easter Company for automating the developmen
 specific to our hosting solution but most will be useful to all developers regardless of
 your host method.
 
-# Install
+## Install
 
 Install the `o script` (Overlord Script) file by running `manage.py` on your intended
 python executable and use the following command.
@@ -38,7 +38,7 @@ the same origin for each `dev -> dev` and `main -> main` for each of your reposi
 you need to change the origin - make sure you reset the origin to Overlord-Tools default
 setting by running the install command again.
 
-# Update
+## Update
 
 Pull latest updates from all your git repositories recursively including submodules and
 packages with a single command.
@@ -47,7 +47,7 @@ packages with a single command.
 ./o update
 ```
 
-# Change Branches
+## Change Branches
 
 You can switch between the `main` (production) branch and the `dev` (development) branch
 for all your repositories and submodules with a single command.
@@ -68,7 +68,7 @@ Switch all your repositories to development branches.
 ./o dev
 ```
 
-# Commit Changes
+## Commit Changes
 
 Commit your changes to a repository with a message.
 
@@ -92,7 +92,7 @@ commit to the server (parent repository) with the message "updated clients & too
 You are not required to use qoutes around your messages although if you want to use syntax
 from bash commands inside your string you will need to use them. Such as the `&` operator.
 
-# Pushing
+## Pushing
 
 When you are ready to push all your changes to the parent repository & submodules
 you can use the following command:
@@ -104,7 +104,7 @@ you can use the following command:
 If required you will need to enter a username & password for each repository that has been
 pushed.
 
-# Merging
+## Merging
 
 When you are ready to merge all your changes from the Development branch into the
 production branch for a repository.
@@ -129,7 +129,7 @@ or you can use the following command:
 
 to merge all the changes from the development branch into each production branch.
 
-# New Django Secret Key
+## New Django Secret Key
 
 To generate a new django secret key file for your application, use the following command:
 
@@ -138,9 +138,84 @@ To generate a new django secret key file for your application, use the following
 ```
 
 and a new secret file will be generated in your application's root directory named
-`.secret` and can be loaded by your app at the following relative path `./.secret`
+`.secret` and can be loaded by your app at the following relative path `./.secret`.
 
-# Help
+## Run Unit Tests
 
-If you are viewing this from within your terminal we reccomend going
+To run all unit tests in your application use the following command:
+
+```bash
+./o test
+```
+
+## Run React Client (standalone)
+
+To run your react application without the server, use the following command:
+
+```bash
+./o runclient
+```
+
+This will start the React Client on its own at `localhost:8100`.
+
+## Run Django Server (standalone)
+
+To run your Django server without any clients, use the following command:
+
+```bash
+./o runserver
+```
+
+This will start the Django Server on its own at `localhost:8000`.
+
+## Run Django Database Migrations
+
+To run your Django migrations (ie; `makemigrations` & `migrate`) just use:
+
+```bash
+./o migrate
+```
+
+This command does not usually need to be run manually - as it will be automatically run
+when the Django server is started. However just incase you need to manually run migrations
+this command is here.
+
+## Run Development Server & Client
+
+To run your Django Server and React Client simultaneously, use the following command:
+
+```bash
+./o run
+```
+
+The Django server will be running on `localhost:8000` while the react client is running on
+`localhost:8100`.
+
+## Run Production Server & Client
+
+To run your production Server and Client, use the following command:
+
+```bash
+./o start
+```
+
+this will run all unit tests - and if they all pass, then the client will be built and
+optimized for production. Then the server will be started with the production ready client
+on a single connection from the same port (`8000` by default).
+
+## Help
+
+To get help you can use the following command:
+
+```bash
+./o help
+```
+
+or just use no command:
+
+```bash
+./o
+```
+
+However if you are viewing this from within your terminal we reccomend going
 [here](https://github.com/EasterCompany/Overlord-Tools) and viewing this with formating.

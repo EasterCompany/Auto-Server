@@ -11,5 +11,5 @@ def branch_origins(branch, repo=None):
     return chdir(path[0])
 
 
-def pull_all():
+def all():
     system('git pull --recurse-submodules')

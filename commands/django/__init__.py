@@ -1,1 +1,1 @@
-from . import new_secret_key
+from . import secret_key, server

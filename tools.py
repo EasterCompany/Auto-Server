@@ -2,7 +2,7 @@
 from sys import argv, path
 
 # Local Commands
-from .commands import install, git, django, node
+from .commands import install, git, django, node, pytest
 
 tools_path = '/'.join(__file__.split('/')[:-1])
 project_path = path[0]
@@ -58,7 +58,7 @@ def run_tool(command, index=0):
 
     elif command == 'install':
         install.create_o_script()
-        git.update.pull_all()
+        git.update.all()
 
         def set_branch_origins(repo=None):
             git.update.branch_origins('dev', repo)
@@ -68,7 +68,7 @@ def run_tool(command, index=0):
         set_branch_origins('clients')
         set_branch_origins('tools')
 
-    elif command == 'update': git.update.pull_all()
+    elif command == 'update': git.update.all()
 
     elif command == 'dev' or command == 'development': git.branch.switch('dev')
 
@@ -80,7 +80,28 @@ def run_tool(command, index=0):
 
     elif command == 'push': git.push.all()
 
-    elif command == 'new_secret_key': django.new_secret_key.make()
+    elif command == 'new_secret_key': django.secret_key.new()
+
+    elif command == 'test': pytest.run.all_tests()
+
+    elif command == 'runclient': node.clients.run()
+
+    elif command == 'runserver': django.server.run()
+
+    elif command == 'build': node.clients.build()
+
+    elif command == 'migrate': django.server.migrate_database()
+
+    elif command == 'run':
+        node.clients.start()
+        django.server.run()
+
+    elif command == 'start':
+        if pytest.run.all_tests():
+            node.clients.build()
+            django.server.start()
+        else:
+            exit(99)
 
     else: help()
 
