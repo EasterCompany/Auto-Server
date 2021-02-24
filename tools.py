@@ -1,7 +1,9 @@
 # Standard Lib
 from sys import argv, path
+
 # Local Commands
-from .commands import install, update, branch, merge, commit, push
+from .commands import install, django, node
+from .commands.git import update, branch, merge, commit, push
 
 tools_path = '/'.join(__file__.split('/')[:-1])
 project_path = path[0]
@@ -53,10 +55,9 @@ def run_tool(command, index=0):
         else:
             return module.error_message(), exit()
 
-    if command.startswith('-'):
-        return None
+    if command.startswith('-'): return None
 
-    if command == 'install':
+    elif command == 'install':
         install.create_o_script()
         update.git_pull_all()
 
@@ -68,32 +69,23 @@ def run_tool(command, index=0):
         set_branch_origins('clients')
         set_branch_origins('tools')
 
-    elif command == 'update':
-        update.git_pull_all()
+    elif command == 'update': update.git_pull_all()
 
-    elif command == 'dev' or command == 'development':
-        branch.switch('dev')
+    elif command == 'dev' or command == 'development': branch.switch('dev')
 
-    elif command == 'main' or command == 'production':
-        branch.switch('main')
+    elif command == 'main' or command == 'production': branch.switch('main')
 
-    elif command == 'merge':
-        do_with_message(merge)
+    elif command == 'merge': do_with_message(merge)
 
-    elif command == 'commit':
-        do_with_message(commit)
+    elif command == 'commit': do_with_message(commit)
 
-    elif command == 'push':
-        push.all()
+    elif command == 'push': push.all()
 
-    else:
-        help()
+    else: help()
 
     return exit()
 
 
 def run():
-    if len(argv) <= 2:
-        help()
-    else:
-        [run_tool(arg, index) for index, arg in enumerate(command_line)]
+    if len(argv) <= 2: help()
+    else: [run_tool(arg, index) for index, arg in enumerate(command_line)]
