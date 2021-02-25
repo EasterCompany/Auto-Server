@@ -219,3 +219,45 @@ or just use no command:
 
 However if you are viewing this from within your terminal we reccomend going
 [here](https://github.com/EasterCompany/Overlord-Tools) and viewing this with formating.
+
+## Patch Notes 0.3.0
+
+Listed below is `new features`, `bug fixes` & `planned features` for the next release.<br>
+Tasks marked (:heavy_check_mark:) have been completed.<br>
+Tasks marked (:x:) have been discarded.<br>
+Tasks left unmarked are currently in development or will begin development soon.<br>
+
+### New Features
+
+...
+
+### Bug Fixes
+
+...
+
+### Task List
+
+...
+
+<br />
+<br />
+<h2> Technology </h2>
+<table>
+   <tr>
+      <td valign="middle">
+         <a href='https://www.python.org/'>
+            <img
+               alt='Python'
+               src='https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/python/python.png'
+               width='64px'
+               height='64px'
+            />
+            <p align='center'> Python </p>
+         </a>
+      </td>
+   </tr>
+</table>
+<br />
+<br />
+
+<p align='center'> Easter Company © 2021 </p>
