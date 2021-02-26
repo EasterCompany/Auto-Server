@@ -9,7 +9,7 @@ from web.settings import BASE_DIR
 
 # Client thread function
 def client(make_build=False):
-    chdir(BASE_DIR + '/clients/Global')
+    chdir(BASE_DIR + '/clients/global')
     if make_build:
         system('npm run build')
     else:
