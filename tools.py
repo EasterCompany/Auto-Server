@@ -2,8 +2,7 @@
 from sys import argv, path
 
 # Local Commands
-from .commands import install, django, node
-from .commands.git import update, branch, merge, commit, push
+from .commands import install, git, django, node, pytest
 
 tools_path = '/'.join(__file__.split('/')[:-1])
 project_path = path[0]
@@ -59,27 +58,50 @@ def run_tool(command, index=0):
 
     elif command == 'install':
         install.create_o_script()
-        update.git_pull_all()
+        git.update.all()
 
         def set_branch_origins(repo=None):
-            update.git_branch_origins('dev', repo)
-            update.git_branch_origins('main', repo)
+            git.update.branch_origins('dev', repo)
+            git.update.branch_origins('main', repo)
 
         set_branch_origins()
         set_branch_origins('clients')
         set_branch_origins('tools')
 
-    elif command == 'update': update.git_pull_all()
+    elif command == 'update': git.update.all()
 
-    elif command == 'dev' or command == 'development': branch.switch('dev')
+    elif command == 'dev' or command == 'development': git.branch.switch('dev')
 
-    elif command == 'main' or command == 'production': branch.switch('main')
+    elif command == 'main' or command == 'production': git.branch.switch('main')
 
-    elif command == 'merge': do_with_message(merge)
+    elif command == 'merge': do_with_message(git.merge)
 
-    elif command == 'commit': do_with_message(commit)
+    elif command == 'commit': do_with_message(git.commit)
 
-    elif command == 'push': push.all()
+    elif command == 'push': git.push.all()
+
+    elif command == 'new_secret_key': django.secret_key.new()
+
+    elif command == 'test': pytest.run.all_tests()
+
+    elif command == 'runclient': node.clients.run()
+
+    elif command == 'runserver': django.server.run()
+
+    elif command == 'build': node.clients.build()
+
+    elif command == 'migrate': django.server.migrate_database()
+
+    elif command == 'run':
+        node.clients.start()
+        django.server.run()
+
+    elif command == 'start':
+        if pytest.run.all_tests():
+            node.clients.build()
+            django.server.start()
+        else:
+            exit(99)
 
     else: help()
 
