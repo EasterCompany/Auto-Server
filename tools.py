@@ -11,19 +11,34 @@ len_cmd_line = len(command_line)
 
 
 def help():
-    readme = open(tools_path + '/README.md')
-    print(readme.read())
-    readme.close()
+    print('invalid input \n  >> ./o', ' '.join(command_line))
+    return print(
+        '''
+************** HELP *****************
+
+To get help & information on Overlord
+Tools go to this github address
+
+https://github.com/EasterCompany/Overlord-Tools/blob/main/README.md
+
+or read your local README.md file
+
+*************************************
+        '''
+    )
 
 
 def run_tool(command, index=0):
     arguments_remaining = 0
+    arguments = []
 
     for arg in command_line[index + 1:]:
         if arg.startswith('-'):
             arguments_remaining += 1
+            arguments.append('-'.join(arg.split('-')[1:]))
         else:
             break
+
 
     def do_with_message(module):
         if len_cmd_line > index + 1:
@@ -84,21 +99,35 @@ def run_tool(command, index=0):
 
     elif command == 'test': pytest.run.all_tests()
 
-    elif command == 'runclient': node.clients.run()
+    elif command == 'runclient' or command == 'run':
+        if arguments_remaining < 1 and not command == 'run':
+            return node.clients.error_message()
+        elif arguments_remaining == 1 and arguments[0] == 'all':
+            return node.clients.run_all()
+        elif arguments_remaining >= 1:
+            for arg in arguments:
+                node.clients.run(arg, False, False)
+            return
 
     elif command == 'runserver': django.server.run()
 
-    elif command == 'build': node.clients.build()
+    elif command == 'build':
+        if arguments_remaining < 1:
+            return node.clients.error_message()
+        if arguments_remaining == 1 and arguments[0] == 'all':
+            return node.clients.build_all()
+        for arg in arguments:
+            node.clients.build(arg)
 
     elif command == 'migrate': django.server.migrate_database()
 
     elif command == 'run':
-        node.clients.start()
+        node.clients.run_all(none_on_main_thread=True)
         django.server.run()
 
     elif command == 'start':
         if pytest.run.all_tests():
-            node.clients.build()
+            node.clients.build_all()
             django.server.start()
         else:
             exit(99)
@@ -109,5 +138,6 @@ def run_tool(command, index=0):
 
 
 def run():
+    install.clients_json(project_path)
     if len(argv) <= 2: help()
     else: [run_tool(arg, index) for index, arg in enumerate(command_line)]
