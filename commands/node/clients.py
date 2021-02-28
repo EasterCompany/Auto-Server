@@ -55,6 +55,7 @@ def run_all(none_on_main_thread=False):
     system('clear')
     return print('Running all clients...\n')
 
+
 # Build specific client on the main thread
 def build(name):
     return run(name, build=True, new_thread=False)
