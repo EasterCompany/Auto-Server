@@ -36,5 +36,4 @@ def error_message():
         ./o merge -server -"merge message"
         ./o merge -clients -"merge message"
         ./o merge -tools -"merge message"
-    """
-    )
+    """)
