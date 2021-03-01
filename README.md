@@ -138,7 +138,8 @@ To generate a new django secret key file for your application, use the following
 ```
 
 and a new secret file will be generated in your application's root directory named
-`.secret` and can be loaded by your app at the following relative path `./.secret`.
+`.secret.key` and can be loaded by your app at the following relative path
+`./.secret.key`.
 
 ## Run Unit Tests
 
