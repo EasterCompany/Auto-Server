@@ -11,7 +11,6 @@ len_cmd_line = len(command_line)
 
 
 def help():
-    print('invalid input \n  >> ./o', ' '.join(command_line))
     return print(
         '''
 ************** HELP *****************
@@ -132,7 +131,9 @@ def run_tool(command, index=0):
         else:
             exit(99)
 
-    else: help()
+    elif command == 'help': help()
+
+    else: print('invalid input \n  >> ./o', ' '.join(command_line))
 
     return exit()
 
