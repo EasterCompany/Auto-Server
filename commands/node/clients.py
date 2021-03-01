@@ -9,24 +9,24 @@ from datetime import datetime
 # Project Specific Imports
 from web.settings import BASE_DIR
 
+# Variable app meta data
+meta_data = {
+    'time_of_last_build': datetime.now().strftime("%Y-%m-%dT%H:%M:%S+00:00")
+}
+
 
 # Client build meta data
-def update_client_meta_data():
-
+def update_client_meta_data(app_path):
     # Read index.html file content
-    index_path = BASE_DIR + '/clients/Global/build/index.html'
+    index_path = app_path + '/build/index.html'
     index_file = open(index_path)
     index_file_content = index_file.read()
     index_file.close()
-
+    # Iterate over all variable meta data
+    [index_file_content.replace('{#' + tag + '#}', meta_data[tag]) for tag in meta_data]
     # Write new index.html file content
     index_file = open(index_path, 'w')
-    index_file.write(
-        index_file_content.replace(
-            '{#time_of_last_build#}',
-            datetime.now().strftime("%Y-%m-%dT%H:%M:%S+00:00")
-        )
-    )
+    index_file.write(index_file_content)
     index_file.close()
 
 
@@ -35,7 +35,7 @@ def client(app_data, build=False):
     chdir(app_data['path'])
     if build and 'build' in app_data:
         system('npm run build')
-        update_client_meta_data()
+        update_client_meta_data(app_data['path'])
     elif 'start' in app_data:
         system('npm run start')
     chdir(BASE_DIR)
