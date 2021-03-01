@@ -2,9 +2,14 @@
 # Overlord Tools
 
 This an open source tool package by Easter Company for automating the development, testing
-& deployment processes for our tech stack hosted on PythonAnywhere. Some features may be
-specific to our hosting solution but most will be useful to all developers regardless of
-your host method.
+& deployment processes for our tech stack developed on *Linux* hosted on *PythonAnywhere*,
+shared on *Github*  and highly emphasies on *Code Reuse & Extensibility* with two of our
+servers & applications [eastercompany.eu](https://eastercompany.eu.pythonanywhere.com/) &
+[easter.company](https://www.easter.company/)
+using a majority of the same code.
+
+some features may be specific to our development & hosting solutions but most will be
+useful to all developers regardless of your host method.
 
 ## Install
 
@@ -154,10 +159,23 @@ To run all unit tests in your application use the following command:
 To run your react application without the server, use the following command:
 
 ```bash
-./o runclient
+./o runclient -"app name"
 ```
 
-This will start the React Client on its own at `localhost:8100`.
+This will start the React Client on its own at `localhost:3000` by default or which ever
+port is specified by the `.env` file in it's root directory. For example; our global
+client runs on port `8100` and each client is designated a increment of 1 after that.
+So the next client on our demo server `seclea` is given port `8101`.
+
+You can also launch all your applications in one command by doing the following:
+
+```bash
+./o runclient -all
+```
+
+Be careful when running all clients in parallel as this will cause all clients to run at
+once and if using `create-react-app` you're browser will spawn a lot of new tabs for each
+client.
 
 ## Run Django Server (standalone)
 
@@ -189,12 +207,14 @@ To run your Django Server and React Client simultaneously, use the following com
 ./o run
 ```
 
-The Django server will be running on `localhost:8000` while the react client is running on
-`localhost:8100`.
+The Django server will be running on `localhost:8000` while all react clients  will be
+running on their designated ports. `localhost:3000` is the default however each client
+should have it's own port number assigned to it by the `.env` file in the clients root
+directory.
 
 ## Run Production Server & Client
 
-To run your production Server and Client, use the following command:
+To run your production Server and Client(s), use the following command:
 
 ```bash
 ./o start
@@ -202,7 +222,18 @@ To run your production Server and Client, use the following command:
 
 this will run all unit tests - and if they all pass, then the client will be built and
 optimized for production. Then the server will be started with the production ready client
-on a single connection from the same port (`8000` by default).
+on a single connection from the same port which is `localhost:8000` by default.
+
+## Variable Meta Data
+
+Overlord Tools uses variable meta data that is generated on each build of your client.
+Variable meta data tags are contained in `{# meta_data #}` these tags.
+
+Here is a list of the all the currently supported variable meta data tags
+
+| Tag                | Content               |
+| ------------------ | --------------------- |
+| time_of_last_build | %Y-%m-%dT%H:%M:%S     |
 
 ## Help
 
@@ -211,15 +242,6 @@ To get help you can use the following command:
 ```bash
 ./o help
 ```
-
-or just use no command:
-
-```bash
-./o
-```
-
-However if you are viewing this from within your terminal we reccomend going
-[here](https://github.com/EasterCompany/Overlord-Tools) and viewing this with formating.
 
 ## Patch Notes 0.3.0
 
@@ -254,6 +276,17 @@ Tasks left unmarked are currently in development or will begin development soon.
                height='64px'
             />
             <p align='center'> Python </p>
+         </a>
+      </td>
+      <td valign="middle">
+         <a href='https://www.gnu.org/software/bash/'>
+            <img
+               alt='bash'
+               src='https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/bash/bash.png'
+               width='64px'
+               height='64px'
+            />
+            <p align='center'> Bash </p>
          </a>
       </td>
    </tr>
