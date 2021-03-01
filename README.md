@@ -11,6 +11,26 @@ using a majority of the same code.
 some features may be specific to our development & hosting solutions but most will be
 useful to all developers regardless of your host method.
 
+## Patch Notes 0.3.3
+
+Listed below is `new features` & `bug fixes` for the next release. <br>
+Tasks marked (:heavy_check_mark:) have been completed. <br>
+Tasks marked (:x:) have been discarded. <br>
+Tasks left unmarked are currently in development or will begin development soon. <br>
+
+### New Features
+
+- Uninstall all clients
+- Uninstall a specific client
+- Install all clients
+- Install a specific client
+- Install server configuration files
+- Install server manage.py and settings.py
+
+### Bug Fixes
+
+...
+
 ## Install
 
 Install the `o script` (Overlord Script) file by running `manage.py` on your intended
@@ -242,25 +262,6 @@ To get help you can use the following command:
 ```bash
 ./o help
 ```
-
-## Patch Notes 0.3.0
-
-Listed below is `new features`, `bug fixes` & `planned features` for the next release.<br>
-Tasks marked (:heavy_check_mark:) have been completed.<br>
-Tasks marked (:x:) have been discarded.<br>
-Tasks left unmarked are currently in development or will begin development soon.<br>
-
-### New Features
-
-...
-
-### Bug Fixes
-
-...
-
-### Task List
-
-...
 
 <br />
 <br />

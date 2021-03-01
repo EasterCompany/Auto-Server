@@ -81,6 +81,9 @@ def run_tool(command, index=0):
         set_branch_origins()
         set_branch_origins('clients')
         set_branch_origins('tools')
+        install.make_server_config(project_path)
+        install.manage_py(project_path)
+        install.settings_py(project_path)
 
     elif command == 'update': git.update.all()
 
