@@ -3,7 +3,7 @@
 
 This an open source tool package by Easter Company for automating the development, testing
 & deployment processes for our tech stack developed on *Linux* hosted on *PythonAnywhere*,
-shared on *Github*  and highly emphasies on *Code Reuse & Extensibility* with two of our
+shared on *Github*  and highly emphasises *Code Reuse & Extensibility* between two of our
 servers & applications [eastercompany.eu](https://eastercompany.eu.pythonanywhere.com/) &
 [easter.company](https://www.easter.company/)
 using a majority of the same code.
