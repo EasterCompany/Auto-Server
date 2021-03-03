@@ -1,7 +1,7 @@
 # Standard Library Imports
 import json
-from sys import executable
-from os.path import exists
+from sys import executable, path
+from os.path import exists, join as pathjoin
 from os import system, name as os, scandir, mkdir
 
 o_script = '''#!/bin/bash
@@ -100,6 +100,7 @@ def make_server_config(project_path='.'):
             'django.contrib.auth.middleware.AuthenticationMiddleware',
             'django.contrib.messages.middleware.MessageMiddleware',
             'django.middleware.clickjacking.XFrameOptionsMiddleware',
+            'whitenoise.middleware.WhiteNoiseMiddleware'
         ],
         "ROOT_URLCONF": 'web.urls',
         "WSGI_APPLICATION": 'web.wsgi.application',
@@ -114,6 +115,7 @@ def make_server_config(project_path='.'):
         },
         "APP_DIRS_TEMPLATE": True,
         "STATIC_URL": '/static/',
+        "STATIC_ROOT": pathjoin(path[0], 'static'),
         "CORS_ORIGIN_ALLOW_ALL": False,
     }
 
