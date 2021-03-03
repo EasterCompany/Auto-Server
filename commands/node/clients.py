@@ -6,9 +6,6 @@ from os import chdir, system
 from threading import Thread
 from datetime import datetime
 
-# Project Specific Imports
-from web.settings import BASE_DIR
-
 # Variable app meta data
 meta_data = {
     'time_of_last_build': datetime.now().strftime("%Y-%m-%dT%H:%M:%S+00:00")
@@ -38,7 +35,7 @@ def client(app_data, build=False):
         update_client_meta_data(app_data['path'])
     elif 'start' in app_data:
         system('npm run start')
-    chdir(BASE_DIR)
+    chdir(path[0])
 
 
 # Create client thread
@@ -70,7 +67,7 @@ def install(target=None):
     else:
         run_install(clients_json[target]['path'])
 
-    return chdir(BASE_DIR)
+    return chdir(path[0])
 
 
 # Run client
@@ -80,7 +77,7 @@ def run(name, build, new_thread):
     if new_thread:
         thread.start()              # Start thread
         sleep(3)                    # Give NPM time to collect package.json
-        return chdir(BASE_DIR)      # Return to root directory
+        return chdir(path[0])      # Return to root directory
     return thread.run()             # ELSE: Run on main thread
 
 

@@ -1,10 +1,7 @@
 # Standard Library Imports
 from os import system
-from sys import executable
 from threading import Thread
-
-# Project Specific Imports
-from web.settings import BASE_DIR
+from sys import executable, path
 
 
 # Server thread function
@@ -12,7 +9,7 @@ def _server(start=True, migrate=False):
 
     def cmd(_cmd):
         system("{python} {dir}/manage.py {command}".\
-            format(python=executable, dir=BASE_DIR, command=_cmd)
+            format(python=executable, dir=path[0], command=_cmd)
         )
 
     if migrate:
