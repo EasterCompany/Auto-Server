@@ -135,6 +135,8 @@ def run_tool(command, index=0):
 
     elif command == 'migrate': django.server.migrate_database()
 
+    elif command == 'collectstatic': django.server.collect_staticfs()
+
     elif command == 'run':
         node.clients.run_all(none_on_main_thread=True)
         django.server.run()
