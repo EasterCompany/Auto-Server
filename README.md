@@ -20,12 +20,12 @@ Tasks left unmarked are currently in development or will begin development soon.
 
 ### New Features
 
-- Uninstall all clients
-- Uninstall a specific client
-- Install all clients
-- Install a specific client
-- Install server configuration files
-- Install server manage.py and settings.py
+- Uninstall all clients                      :x:
+- Uninstall a specific client                :x:
+- Install all clients                        :heavy_check_mark:
+- Install a specific client                  :heavy_check_mark:
+- Install server configuration files         :heavy_check_mark:
+- Install server manage.py and settings.py   :heavy_check_mark:
 
 ### Bug Fixes
 
@@ -62,6 +62,20 @@ The install command with also set the origins of your development and production
 the same origin for each `dev -> dev` and `main -> main` for each of your repositories. If
 you need to change the origin - make sure you reset the origin to Overlord-Tools default
 setting by running the install command again.
+
+### Installing clients
+
+Using the clients argument you can install all clients within the `clients` directory
+
+```bash
+./o install -clients
+```
+
+or you can specifically install a single client with the following command
+
+```bash
+./o install -clients -"client_name_here"
+```
 
 ## Update
 
