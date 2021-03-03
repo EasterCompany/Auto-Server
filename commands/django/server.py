@@ -5,7 +5,7 @@ from sys import executable, path
 
 
 # Server thread function
-def _server(start=True, migrate=False):
+def _server(start=True, migrate=False, collectstatic=False):
 
     def cmd(_cmd):
         system("{python} {dir}/manage.py {command}".\
@@ -15,6 +15,8 @@ def _server(start=True, migrate=False):
     if migrate:
         cmd('makemigrations')
         cmd('migrate')
+    if collectstatic:
+        cmd('collectstatic --noinput')
     if start:
         cmd('runserver')
 
@@ -28,7 +30,8 @@ thread = Thread(
 )
 
 # Server migration function
-migrate_database = lambda: _server(start=False, migrate=True)
+migrate_database = lambda: _server(start=False, migrate=True, collectstatic=False)
+collect_staticfs = lambda: _server(start=False, migrate=False, collectstatic=True)
 
 
 def run():
@@ -38,4 +41,5 @@ def run():
 
 def start():
     migrate_database()
+    collect_staticfs()
     return thread.start()

@@ -77,7 +77,7 @@ def run(name, build, new_thread):
     if new_thread:
         thread.start()              # Start thread
         sleep(3)                    # Give NPM time to collect package.json
-        return chdir(path[0])      # Return to root directory
+        return chdir(path[0])       # Return to root directory
     return thread.run()             # ELSE: Run on main thread
 
 
