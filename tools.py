@@ -1,4 +1,5 @@
 # Standard Lib
+from os.path import exists
 from sys import argv, path
 
 # Local Commands
@@ -71,6 +72,15 @@ def run_tool(command, index=0):
     if command.startswith('-'): return None
 
     elif command == 'install':
+
+        if arguments[0] == 'clients':
+            if arguments_remaining == 1:
+                return node.clients.install()
+            elif arguments_remaining > 1:
+                for argument in arguments[1:]:
+                    node.clients.install(argument)
+                return
+
         install.create_o_script()
         git.update.all()
 
@@ -84,6 +94,8 @@ def run_tool(command, index=0):
         install.make_server_config(project_path)
         install.manage_py(project_path)
         install.settings_py(project_path)
+        if not exists(project_path + '/.secret.key'):
+            django.secret_key.new()
 
     elif command == 'update': git.update.all()
 

@@ -55,6 +55,24 @@ clients_json = loads(clients_file.read())
 clients_file.close()
 
 
+# Install client
+def install(target=None):
+
+    def run_install(client_path):
+        chdir(client_path)
+        system('npm install')
+
+    if target is None:
+        for client in clients_json:
+            print('\n', client, '----------------')
+            run_install(clients_json[client]['path'])
+        print()
+    else:
+        run_install(clients_json[target]['path'])
+
+    return chdir(BASE_DIR)
+
+
 # Run client
 def run(name, build, new_thread):
     client_data = clients_json[name]

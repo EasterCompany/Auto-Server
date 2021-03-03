@@ -4,9 +4,6 @@ from sys import executable
 from os.path import exists
 from os import system, name as os, scandir, mkdir
 
-# Project Specific Imports
-from web.settings import BASE_DIR
-
 o_script = '''#!/bin/bash
 clear
 {python} manage.py tools $1 $2 $3 $4 $5
@@ -14,12 +11,12 @@ exit
 '''.format(python=executable)
 
 
-def create_o_script():
-    f = open('./o', 'w+')
+def create_o_script(project_path='.'):
+    f = open(project_path + '/o', 'w+')
     f.write(o_script)
     f.close()
     if os == 'posix':
-        system('chmod +x ./o')
+        system('chmod +x ' + project_path + '/o')
 
 
 def fetch_clients(project_path='.'):
@@ -122,7 +119,7 @@ def make_server_config(project_path='.'):
 
     def is_app(f):
         ignored_dirs = (
-            'clients', 'config', 'tools', 'web'
+            'clients', 'config', 'tools', 'web', 'static', 'media'
         )
         if f.is_dir() and not f.name.startswith('.') and not f.name in ignored_dirs:
             return True
