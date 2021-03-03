@@ -73,7 +73,7 @@ def run_tool(command, index=0):
 
     elif command == 'install':
 
-        if arguments[0] == 'clients':
+        if arguments_remaining > 0 and arguments[0] == 'clients':
             if arguments_remaining == 1:
                 return node.clients.install()
             elif arguments_remaining > 1:
