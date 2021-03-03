@@ -50,9 +50,27 @@ new_client = lambda app_name, app_data, build: Thread(
 )
 
 # All clients data from config file
-clients_file = open(path[0] + '/.tools_config/clients.json')
+clients_file = open(path[0] + '/config/clients.json')
 clients_json = loads(clients_file.read())
 clients_file.close()
+
+
+# Install client
+def install(target=None):
+
+    def run_install(client_path):
+        chdir(client_path)
+        system('npm install')
+
+    if target is None:
+        for client in clients_json:
+            print('\n', client, '----------------')
+            run_install(clients_json[client]['path'])
+        print()
+    else:
+        run_install(clients_json[target]['path'])
+
+    return chdir(BASE_DIR)
 
 
 # Run client
