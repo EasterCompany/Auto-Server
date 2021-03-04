@@ -20,9 +20,11 @@ def update_client_meta_data(app_path):
     index_file_content = index_file.read()
     index_file.close()
     # Iterate over all variable meta data
-    [index_file_content.replace('{#' + tag + '#}', meta_data[tag]) for tag in meta_data]
+    for tag in meta_data:
+        index_file_content = \
+            index_file_content.replace('{#' + tag + '#}', meta_data[tag])
     # Write new index.html file content
-    index_file = open(index_path, 'w')
+    index_file = open(index_path, 'w+')
     index_file.write(index_file_content)
     index_file.close()
 
