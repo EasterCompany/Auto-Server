@@ -16,7 +16,7 @@ def _server(start=True, migrate=False, collectstatic=False):
         cmd('makemigrations')
         cmd('migrate')
     if collectstatic:
-        cmd('collectstatic --noinput')
+        cmd('collectstatic --noinput'), print('')
     if start:
         cmd('runserver')
 
@@ -40,6 +40,5 @@ def run():
 
 
 def start():
-    migrate_database()
-    collect_staticfs()
+    _server(start=False, migrate=True, collectstatic=True)
     return thread.start()
