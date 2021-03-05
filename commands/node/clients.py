@@ -2,9 +2,9 @@
 from sys import path
 from json import loads
 from time import sleep
-from os import chdir, system
 from threading import Thread
 from datetime import datetime
+from os import chdir, system, rename
 
 # Variable app meta data
 meta_data = {
@@ -27,6 +27,7 @@ def update_client_meta_data(app_path):
     index_file = open(index_path, 'w+')
     index_file.write(index_file_content)
     index_file.close()
+    rename(app_path + '/build/index.html', app_path + '/build/index')
 
 
 # Client thread function
