@@ -2,9 +2,10 @@
 from sys import path
 from json import loads
 from time import sleep
+from os.path import exists
 from threading import Thread
 from datetime import datetime
-from os import chdir, system, rename
+from os import chdir, system, rename, remove
 
 # Variable app meta data
 meta_data = {
@@ -27,7 +28,10 @@ def update_client_meta_data(app_path):
     index_file = open(index_path, 'w+')
     index_file.write(index_file_content)
     index_file.close()
+    # Rename and Remove build files for indexing
     rename(app_path + '/build/index.html', app_path + '/build/index')
+    if exists(app_path + '/build/200.html'):
+        remove(app_path + '/build/200.html')
 
 
 # Client thread function
