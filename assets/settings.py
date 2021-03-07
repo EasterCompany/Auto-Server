@@ -5,11 +5,11 @@ from json import loads
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEBUG = True
 
-SERVER_FILE = open(BASE_DIR + '/config/server.json')
+SERVER_FILE = open(BASE_DIR + '/.config/server.json')
 SERVER_DATA = loads(SERVER_FILE.read())
 SERVER_FILE.close()
 
-CLIENT_FILE = open(BASE_DIR + '/config/clients.json')
+CLIENT_FILE = open(BASE_DIR + '/.config/clients.json')
 CLIENT_DATA = loads(CLIENT_FILE.read())
 CLIENT_FILE.close()
 
@@ -20,7 +20,7 @@ USE_L10N = True
 USE_TZ = True
 
 try:
-    SECRET_KEY_FILE = open(BASE_DIR + '/.secret.key')
+    SECRET_KEY_FILE = open(BASE_DIR + '/.config/.secret.key')
     SECRET_KEY = SECRET_KEY_FILE.read()
     SECRET_KEY_FILE.close()
 except:

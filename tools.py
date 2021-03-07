@@ -1,9 +1,8 @@
 # Standard Lib
-from os.path import exists
 from sys import argv, path
 
 # Local Commands
-from .commands import install, git, django, node, pytest
+from .commands import install, git, django, node, pytest, pa
 
 tools_path = '/'.join(__file__.split('/')[:-1])
 project_path = path[0]
@@ -29,45 +28,25 @@ or read your local README.md file
 
 
 def run_tool(command, index=0):
+    # General input variables
     arguments_remaining = 0
     arguments = []
-
     for arg in command_line[index + 1:]:
         if arg.startswith('-'):
             arguments_remaining += 1
             arguments.append('-'.join(arg.split('-')[1:]))
         else:
             break
-
-
-    def do_with_message(module):
-        if len_cmd_line > index + 1:
-            if arguments_remaining < 2:
-                return module.error_message(), exit()
-            else:
-                repo = ''.join(
-                    command_line[index + 1].split('-')[1:]
-                )
-                message = ''.join(
-                    ' '.join(command_line[index + 2:]).split('-')[1:]
-                )
-
-                if repo == 'server':
-                    repo = None
-
-                if repo == 'all':
-                    print('\nTools --------------------------------')
-                    module.with_message(message, 'tools')
-                    print('\nClients ------------------------------')
-                    module.with_message(message, 'clients')
-                    print('\nServer -------------------------------')
-                    module.with_message(message, None)
-                    print('')
-                    return exit()
-
-                return module.with_message(message, repo), exit()
-        else:
-            return module.error_message(), exit()
+    # Used for commit & merge commands
+    if arguments_remaining >= 2:
+        git_repo = ''.join(
+            command_line[index + 1].split('-')[1:]
+        )
+        git_message = ''.join(
+            ' '.join(command_line[index + 2:]).split('-')[1:]
+        )
+    else:
+        git_repo, git_message = None, None
 
     if command.startswith('-'): return None
 
@@ -92,10 +71,8 @@ def run_tool(command, index=0):
         set_branch_origins('clients')
         set_branch_origins('tools')
         install.make_server_config(project_path)
-        install.manage_py(project_path)
-        install.settings_py(project_path)
-        if not exists(project_path + '/.secret.key'):
-            django.secret_key.new()
+        install.django_files(project_path)
+        install.secrets_file(project_path)
 
     elif command == 'update': git.update.all()
 
@@ -103,9 +80,17 @@ def run_tool(command, index=0):
 
     elif command == 'main' or command == 'production': git.branch.switch('main')
 
-    elif command == 'merge': do_with_message(git.merge)
+    elif command == 'merge':
+        if arguments_remaining == 2:
+            if arguments[0] == 'all': git.merge.all(git_message), exit()
+            else: git.merge.with_message(git_message, git_repo), exit()
+        git.merge.error_message(), exit()
 
-    elif command == 'commit': do_with_message(git.commit)
+    elif command == 'commit':
+        if arguments_remaining == 2:
+            if arguments[0] == 'all': git.commit.all(git_message), exit()
+            else: git.commit.with_message(git_message, git_repo), exit()
+        git.commit.error_message(), exit()
 
     elif command == 'push': git.push.all()
 
@@ -122,6 +107,9 @@ def run_tool(command, index=0):
             for arg in arguments:
                 node.clients.run(arg, False, False)
             return
+        elif command == 'run':
+            node.clients.run_all(none_on_main_thread=True)
+            django.server.run()
 
     elif command == 'runserver': django.server.run()
 
@@ -137,16 +125,22 @@ def run_tool(command, index=0):
 
     elif command == 'collectstatic': django.server.collect_staticfs()
 
-    elif command == 'run':
-        node.clients.run_all(none_on_main_thread=True)
-        django.server.run()
-
     elif command == 'start':
         if pytest.run.all_tests():
             node.clients.build_all()
             django.server.start()
         else:
             exit(99)
+
+    elif command == 'server':
+        if arguments_remaining == 1:
+            if arguments[0] == 'apps': pa.api.get_app_data()
+            elif arguments[0] == 'consoles': pa.api.get_con_data()
+            elif arguments[0] == 'cpu': pa.api.get_cpu_data()
+            elif arguments[0] == 'tasks': pa.api.get_task_data()
+            elif arguments[0] == 'reload': pa.api.post_reload_req()
+            elif arguments[0] == 'update': pass
+        else: pa.api.error_message()
 
     elif command == 'help': help()
 
@@ -156,6 +150,9 @@ def run_tool(command, index=0):
 
 
 def run():
-    install.clients_json(project_path)
     if len(argv) <= 2: help()
     else: [run_tool(arg, index) for index, arg in enumerate(command_line)]
+
+
+if __name__ == '__main__':
+    run()
