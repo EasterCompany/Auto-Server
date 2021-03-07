@@ -25,7 +25,7 @@ Tasks left unmarked are currently in development or will begin development soon.
 - Request server console status :heavy_check_mark:
 - Request server webapps status :heavy_check_mark:
 - Request server to reload :heavy_check_mark:
-- Request server to update
+- Request server to update :heavy_check_mark:
 
 ### Bug Fixes
 
