@@ -1,9 +1,10 @@
 # Standard Library Imports
 import os
 from json import loads
+from socket import gethostname
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DEBUG = True
+DEBUG = gethostname() != "green-euconsole1"
 
 SERVER_FILE = open(BASE_DIR + '/.config/server.json')
 SERVER_DATA = loads(SERVER_FILE.read())
