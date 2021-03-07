@@ -19,6 +19,7 @@ else:
 username = secret_data['PA_USER_ID']
 token = secret_data['PA_API_KEY']
 domain = secret_data['DOMAIN_URL']
+secret = secret_data['SECRET_KEY']
 
 
 def fetch_api(api, args=None, method='GET'):
@@ -26,10 +27,8 @@ def fetch_api(api, args=None, method='GET'):
         args = '/'.join(args) + '/'
     else:
         args = ''
-
     if method == 'GET': func = requests.get
     elif method == 'POST': func = requests.post
-
     response = func(
         'https://eu.pythonanywhere.com/api/v0/user/{username}/{api}/{args}'.format(
             username=username,
@@ -40,7 +39,32 @@ def fetch_api(api, args=None, method='GET'):
             'Authorization': 'Token {token}'.format(token=token)
         }
     )
+    if not response.status_code == 200:
+        return print('Got unexpected status code {}: {!r}'.format(
+                response.status_code,
+                response.content
+            )
+        ), exit()
+    return loads(response.content)
 
+
+def fetch_domain(api, args=None, method='GET'):
+    if args is not None:
+        args = '/'.join(args) + '/'
+    else:
+        args = ''
+    if method == 'GET': func = requests.get
+    elif method == 'POST': func = requests.post
+    response = func(
+        '{domain}/api/olt/{api}/{args}'.format(
+            domain=domain,
+            api=api,
+            args=args
+        ),
+        headers={
+            'secret': '{key}'.format(key=secret)
+        }
+    )
     if not response.status_code == 200:
         return print('Got unexpected status code {}: {!r}'.format(
                 response.status_code,
@@ -86,6 +110,11 @@ def post_reload_req():
         args=(domain, 'reload'),
         method='POST'
     )
+    print('status:', data['status'], '\n')
+
+def post_upgrade_req():
+    print('\nUpgrading', domain, '...\n')
+    data = fetch_domain('upgrade')
     print('status:', data['status'], '\n')
 
 
