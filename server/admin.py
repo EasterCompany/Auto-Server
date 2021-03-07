@@ -63,9 +63,9 @@ def upgrade_request(secret):
     print('    succeeded.\n')
     try:
         #update.all()                # Pull updates from git repository
-        status = subprocess.check_output('./o update', shell=True).decode('utf-8')
+        subprocess.check_output('./o update', shell=True)
         collect_staticfs()          # Collect new static files
-        #status = OK_status
+        status = OK_status
     except Exception as e:
         status = str(e)
     update_logs(                    # Log upgrade request
