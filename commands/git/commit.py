@@ -21,10 +21,10 @@ def with_message(message, module_name):
 def all(message):
     print('\nSubmodules :------------------\n')
     system('''
-        git submodule foreach --recursive
-            "git add . && git commit -m "{message}" echo ''"
+        git submodule foreach --recursive "git commit -am '{message}'"
         '''.format(message=message).replace('\n', ' ')
     )
+    print('')
     print('\nParent :----------------------\n')
     system('''git add . && git commit -m "{message}"'''.\
         format(message=message)
