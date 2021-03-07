@@ -12,4 +12,8 @@ def branch_origins(branch, repo=None):
 
 
 def all():
-    system('git pull --recurse-submodules')
+    print('\nSubmodules :------------------\n')
+    system('''git submodule foreach --recursive "git pull && echo ''"''')
+    print('\nParent :----------------------\n')
+    system('git pull')
+    print('')
