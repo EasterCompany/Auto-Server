@@ -22,7 +22,7 @@ def all(message):
     print('\nSubmodules :------------------\n')
     system('''
         git submodule foreach --recursive
-        "git add . && git commit -m '{message}' && echo ''"
+        "git add . && git commit -m '{message}' && echo '' || :"
         '''.format(message=message).replace('\n', ' ')
     )
     print('\nParent :----------------------\n')

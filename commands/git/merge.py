@@ -3,7 +3,7 @@ from os import system, chdir
 
 git_cmd = '''
     git checkout main && git pull origin main &&
-    git merge dev -m "{message}" &&
+    git merge dev -m '{message}' &&
     git push origin main && git checkout dev
 '''.replace('\n', ' ')
 
@@ -24,7 +24,7 @@ def with_message(message, module_name):
 def all(message):
     print('\nSubmodules :------------------\n')
     system('''
-        git submodule foreach --recursive "{git_cmd} echo ''"
+        git submodule foreach --recursive "{git_cmd} && echo '' || :"
     '''.format(git_cmd=git_cmd.format(message=message)).\
         replace('\n', ' '))
 
