@@ -22,7 +22,7 @@ domain = secret_data['DOMAIN_URL']
 secret = secret_data['SECRET_KEY']
 
 
-def fetch_api(api, args=None, method='GET'):
+def fetch_api(api, args=None, method='GET', post={}):
     if args is not None:
         args = '/'.join(args) + '/'
     else:
@@ -37,7 +37,8 @@ def fetch_api(api, args=None, method='GET'):
         ),
         headers={
             'Authorization': 'Token {token}'.format(token=token)
-        }
+        },
+        params=post
     )
     if not response.status_code == 200:
         return print('Got unexpected status code {}: {!r}'.format(
@@ -126,4 +127,5 @@ def error_message():
         ./o server -cpu
         ./o server -consoles
         ./o server -tasks
+        ./o server -upgrade
     ''')

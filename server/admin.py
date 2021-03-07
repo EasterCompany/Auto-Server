@@ -1,6 +1,5 @@
 # Standard Library Imports
 import json
-import subprocess
 from sys import path
 from datetime import datetime
 # Local Module Imports
@@ -62,8 +61,7 @@ def upgrade_request(secret):
         return BAD_status
     print('    succeeded.\n')
     try:
-        #update.all()                # Pull updates from git repository
-        subprocess.check_output('./o update', shell=True)
+        update.all()                # Pull updates from git repository
         collect_staticfs()          # Collect new static files
         status = OK_status
     except Exception as e:
