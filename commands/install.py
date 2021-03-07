@@ -1,30 +1,59 @@
-# Standard Library Imports
+# Standard library imports
 import json
 from sys import executable, path
 from os.path import exists, join as pathjoin
 from os import system, name as os, scandir, mkdir
 
-o_script = '''#!/bin/bash
+# Django module imports
+from django.core.management.utils import get_random_secret_key
+
+# --------------------------- CREATE & CONFIRM CONFIG EXISTS --------------------------- #
+def __init_conifg_directory__(project_path='.'):
+    if not exists(project_path + '/.config'):
+        mkdir(project_path + '/.config')
+
+# -------------------------- CREATE & CONFIRM LOGS DIR EXISTS -------------------------- #
+def __init_logs_directory__(project_path='.'):
+    if not exists(project_path + '/.logs'): mkdir(project_path + '/.logs')
+    if not exists(project_path + '/.logs/requests.json'):
+        req_json = open(project_path + '/.logs/requests.json', 'w+')
+        req_json.write('{\n}')
+        req_json.close()
+
+# -------------------------- CONFIRM CONFIG JSON FILE EXISTS --------------------------- #
+def dump_json(filename, data, project_path='.'):
+    file_path = project_path + '/.config/' + filename + '.json'
+    with open(file_path, 'w') as conf_file:
+        json.dump(
+            data,
+            conf_file,
+            indent=2
+        )
+
+def install_file(filename, destination, project_path='.'):
+    base = open(project_path + '/tools/assets/' + filename)
+    newf = open(project_path + destination + '/' + filename, 'w+')
+    newf.write(base.read())
+    base.close(), newf.close()
+
+def create_o_script(project_path='.'):
+    o_script = \
+'''#!/bin/bash
 clear
 {python} manage.py tools $1 $2 $3 $4 $5
 exit
 '''.format(python=executable)
-
-
-def create_o_script(project_path='.'):
     f = open(project_path + '/o', 'w+')
     f.write(o_script)
     f.close()
     if os == 'posix':
         system('chmod +x ' + project_path + '/o')
 
-
-def fetch_clients(project_path='.'):
+def make_clients_config(project_path='.'):
     client_paths  = [
         f.path for f in scandir(project_path + "/clients") if f.is_dir()
     ]
     clients = {}
-
     for client in client_paths:
         files = [
             f.path.split("/")[-1] for f in scandir(client) if not f.is_dir()
@@ -54,27 +83,9 @@ def fetch_clients(project_path='.'):
             "build": scripts["build"],
             "version": scripts["version"]
         }
-
-    return clients
-
-
-def clients_json(project_path='.'):
-    if not exists(project_path + '/config'):
-        mkdir(project_path + '/config')
-    clients_data = fetch_clients(project_path)
-
-    with open(project_path + '/config/clients.json', 'w') as clients_file:
-        json.dump(
-            clients_data,
-            clients_file,
-            indent=2
-        )
-
+    dump_json('clients', clients, project_path)
 
 def make_server_config(project_path='.'):
-    if not exists(project_path + '/config'):
-        mkdir(project_path + '/config')
-
     server_core_data = {
         "LANGUAGE_CODE": 'en-gb',
         "TIME_ZONE": 'UTC',
@@ -121,7 +132,7 @@ def make_server_config(project_path='.'):
 
     def is_app(f):
         ignored_dirs = (
-            'clients', 'config', 'tools', 'web', 'static', 'media'
+            'clients', 'tools', 'web', 'static', 'media'
         )
         if f.is_dir() and not f.name.startswith('.') and not f.name in ignored_dirs:
             return True
@@ -130,26 +141,18 @@ def make_server_config(project_path='.'):
     installed_apps = [
         f.path.split("/")[-1] for f in scandir(project_path) if is_app(f)
     ]
-
     server_core_data["INSTALLED_APPS"] += installed_apps
+    return dump_json('server', server_core_data, project_path)
 
-    with open(project_path + '/config/server.json', 'w') as conf_file:
-        json.dump(
-            server_core_data,
-            conf_file,
-            indent=2
-        )
+def django_files(project_path='.'):
+    install_file('manage.py', '/', project_path)
+    install_file('settings.py', '/web', project_path)
 
-
-def manage_py(project_path='.'):
-    manage_file = open(project_path + '/tools/assets/manage.py')
-    manage_orig = open(project_path + '/manage.py', 'w+')
-    manage_orig.write(manage_file.read())
-    manage_file.close(), manage_orig.close()
-
-
-def settings_py(project_path='.'):
-    settings_file = open(project_path + '/tools/assets/settings.py')
-    settings_orig = open(project_path + '/web/settings.py', 'w+')
-    settings_orig.write(settings_file.read())
-    settings_file.close(), settings_orig.close()
+def secrets_file(project_path='.'):
+    token_data = {
+        "SECRET_KEY": get_random_secret_key(),
+        "PA_USER_ID": "",
+        "PA_API_KEY": "",
+        "DOMAIN_URL": ""
+    }
+    return dump_json('secret', token_data, project_path)

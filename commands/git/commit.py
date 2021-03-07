@@ -2,14 +2,12 @@ from os import system, chdir
 from sys import path
 
 
-def with_message(message, module=None):
-    if module is not None:
-        module_name = module
-    else:
-        module_name = 'Server'
+def with_message(message, module_name):
+    module = module_name
+    if module == 'server':
+        module = None
 
-    print(module_name + "------------------")
-
+    print('\n', module_name, ":------------------\n")
     if module is not None:
         chdir(path[0] + '/' + module)
 
@@ -17,8 +15,21 @@ def with_message(message, module=None):
     system('''git commit -m "{message}"'''.format(
         message=message
     ))
+    return print(''), chdir(path[0])
 
-    return chdir(path[0])
+
+def all(message):
+    print('\nSubmodules :------------------\n')
+    system('''
+        git submodule foreach --recursive
+            "git add . && git commit -m "{message}" echo ''"
+        '''.format(message=message).replace('\n', ' ')
+    )
+    print('\nParent :----------------------\n')
+    system('''git add . && git commit -m "{message}"'''.\
+        format(message=message)
+    )
+    return print('')
 
 
 def error_message():
