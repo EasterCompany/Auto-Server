@@ -7,7 +7,7 @@ def with_message(message, module_name):
     if module == 'server':
         module = None
 
-    print('\n', module_name, ":------------------\n")
+    print(module_name.title(), ":------------------\n")
     if module is not None:
         chdir(path[0] + '/' + module)
 
@@ -21,10 +21,10 @@ def with_message(message, module_name):
 def all(message):
     print('\nSubmodules :------------------\n')
     system('''
-        git submodule foreach --recursive "git commit -am '{message}'"
+        git submodule foreach --recursive
+        "git add . && git commit -m '{message}' && echo ''"
         '''.format(message=message).replace('\n', ' ')
     )
-    print('')
     print('\nParent :----------------------\n')
     system('''git add . && git commit -m "{message}"'''.\
         format(message=message)
