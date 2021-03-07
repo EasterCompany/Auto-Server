@@ -1,7 +1,6 @@
 # Standard Library Imports
 import json
 from sys import path
-from os import system
 from datetime import datetime
 # Local Module Imports
 from tools.commands import git

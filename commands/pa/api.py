@@ -50,13 +50,13 @@ def fetch_api(api, args=None, method='GET'):
 
 def fetch_domain(api, args=None, method='GET'):
     if args is not None:
-        args = '/'.join(args) + '/'
+        args = '/' + '/'.join(args) + '/'
     else:
         args = ''
     if method == 'GET': func = requests.get
     elif method == 'POST': func = requests.post
     response = func(
-        '{domain}/api/olt/{api}/{args}'.format(
+        'https://{domain}/api/olt/{api}{args}'.format(
             domain=domain,
             api=api,
             args=args

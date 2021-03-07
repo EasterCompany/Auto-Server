@@ -11,7 +11,7 @@ using a majority of the same code.
 some features may be specific to our development & hosting solutions but most will be
 useful to all developers regardless of your host method.
 
-## Patch Notes 0.4.1
+## Patch Notes 0.4.2
 
 Listed below is `new features` & `bug fixes` for the next release. <br>
 Tasks marked (:heavy_check_mark:) have been completed. <br>
@@ -25,7 +25,8 @@ Tasks left unmarked are currently in development or will begin development soon.
 - Request server console status :heavy_check_mark:
 - Request server webapps status :heavy_check_mark:
 - Request server to reload :heavy_check_mark:
-- Request server to update :heavy_check_mark:
+- Request server to upgrade :heavy_check_mark:
+- Request server to upgrade & reload :heavy_check_mark:
 
 ### Bug Fixes
 
