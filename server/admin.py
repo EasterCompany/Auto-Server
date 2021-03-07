@@ -3,7 +3,8 @@ import json
 from sys import path
 from datetime import datetime
 # Local Module Imports
-from tools.commands import git
+from tools.commands.git import update
+from tools.commands.django.server import collect_staticfs
 
 # Load requests logs file for logging
 requests_file = open(path[0] + '/.logs/requests.json')
@@ -59,12 +60,17 @@ def upgrade_request(secret):
         print('    failed.\n')
         return BAD_status
     print('    succeeded.\n')
-    git.update.all()
-    update_logs(
+    try:
+        update.all()                # Pull updates from git repository
+        collect_staticfs()          # Collect new static files
+        status = OK_status
+    except Exception as e:
+        status = str(e)
+    update_logs(                    # Log upgrade request
         {
             'req': req,
-            'status': OK_status,
+            'status': status,
             'verified': True
         }
     )
-    return OK_status
+    return status

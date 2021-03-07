@@ -4,7 +4,7 @@ from os import system, chdir
 
 def branch_origins(branch, repo=None):
     if repo is not None:
-        chdir(path[0] + '/' + 'tools')
+        chdir(path[0] + '/' + repo)
     system('git branch --set-upstream-to=origin/{branch} {branch}'.format(
         branch=branch
     ))
@@ -12,6 +12,7 @@ def branch_origins(branch, repo=None):
 
 
 def all():
+    chdir(path[0])
     print('\nSubmodules :------------------\n')
     system('''git submodule foreach --recursive "git pull && echo ''"''')
     print('\nParent :----------------------\n')
