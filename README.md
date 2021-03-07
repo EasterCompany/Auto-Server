@@ -11,7 +11,7 @@ using a majority of the same code.
 some features may be specific to our development & hosting solutions but most will be
 useful to all developers regardless of your host method.
 
-## Patch Notes 0.4.0
+## Patch Notes 0.4.1
 
 Listed below is `new features` & `bug fixes` for the next release. <br>
 Tasks marked (:heavy_check_mark:) have been completed. <br>
@@ -269,7 +269,7 @@ Here is a list of the all the currently supported variable meta data tags
 | ------------------ | --------------------- |
 | time_of_last_build | %Y-%m-%dT%H:%M:%S     |
 
-## PA CI Tools
+## PA Data Tools
 
 You can control the host server by adding the api key to the `.config/secret.json` file.
 To talk to the python anywhere hosted server use the following command:
@@ -321,6 +321,20 @@ To reload the production server for the current application you're developing.
 ```
 
 In order to run this command you will need to add the domain to your `.config/secret.json`
+
+## PA CI Tools
+
+For PA `Continious Integration` tools to work you will need to add the `tools.server.api`
+view file to your `web.urls` or other root urls file for your django project.
+
+### Server Upgrade
+
+The server upgrade command will request the server to upgrade to the latest version of the
+app from the github repositories `main` branch.
+
+```bash
+./o server -upgrade
+```
 
 ## Help
 

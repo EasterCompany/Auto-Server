@@ -139,6 +139,7 @@ def run_tool(command, index=0):
             elif arguments[0] == 'cpu': pa.api.get_cpu_data()
             elif arguments[0] == 'tasks': pa.api.get_task_data()
             elif arguments[0] == 'reload': pa.api.post_reload_req()
+            elif arguments[0] == 'update': pass
         else: pa.api.error_message()
 
     elif command == 'help': help()
