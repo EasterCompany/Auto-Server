@@ -2,6 +2,7 @@ import requests
 from sys import path
 from json import loads
 from os.path import exists
+from tools.library.console import colour_status_code
 
 # GET CONFIGURATION SECRETS
 if exists(path[0] + '/.config/secret.json'):
@@ -111,12 +112,12 @@ def post_reload_req():
         args=(domain, 'reload'),
         method='POST'
     )
-    print('status:', data['status'], '\n')
+    print('status:', colour_status_code(data['status']), '\n')
 
 def post_upgrade_req():
     print('\nUpgrading', domain, '...\n')
     data = fetch_domain('upgrade')
-    print('status:', data['status'], '\n')
+    print('status:', colour_status_code(data['status']), '\n')
 
 
 def error_message():
