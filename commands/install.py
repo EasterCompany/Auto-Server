@@ -31,12 +31,14 @@ def dump_json(filename, data, project_path='.'):
         )
 
 def install_file(filename, destination, project_path='.'):
+    print('Installing', filename, 'to', destination, '...')
     base = open(project_path + '/tools/assets/' + filename)
     newf = open(project_path + destination + '/' + filename, 'w+')
     newf.write(base.read())
     base.close(), newf.close()
 
 def create_o_script(project_path='.'):
+    print('Generating ./o script...')
     o_script = \
 '''#!/bin/bash
 clear
@@ -86,7 +88,9 @@ def make_clients_config(project_path='.'):
     dump_json('clients', clients, project_path)
 
 def make_server_config(project_path='.'):
+    print('Generating server config...')
     server_core_data = {
+        "DEBUG": True,
         "LANGUAGE_CODE": 'en-gb',
         "TIME_ZONE": 'UTC',
         "ALLOWED_HOSTS": [
@@ -149,6 +153,7 @@ def django_files(project_path='.'):
     install_file('settings.py', '/web', project_path)
 
 def secrets_file(project_path='.'):
+    print('Generating secrets config...')
     token_data = {
         "SECRET_KEY": get_random_secret_key(),
         "PA_USER_ID": "",

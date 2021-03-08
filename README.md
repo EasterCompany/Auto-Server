@@ -11,7 +11,7 @@ using a majority of the same code.
 some features may be specific to our development & hosting solutions but most will be
 useful to all developers regardless of your host method.
 
-## Patch Notes 0.4.2
+## Patch Notes 0.4.5
 
 Listed below is `new features` & `bug fixes` for the next release. <br>
 Tasks marked (:heavy_check_mark:) have been completed. <br>

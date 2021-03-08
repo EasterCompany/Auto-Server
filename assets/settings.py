@@ -1,10 +1,8 @@
 # Standard Library Imports
 import os
 from json import loads
-from socket import gethostname
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DEBUG = gethostname() != "green-euconsole1"
 
 SERVER_FILE = open(BASE_DIR + '/.config/server.json')
 SERVER_DATA = loads(SERVER_FILE.read())
@@ -14,6 +12,7 @@ CLIENT_FILE = open(BASE_DIR + '/.config/clients.json')
 CLIENT_DATA = loads(CLIENT_FILE.read())
 CLIENT_FILE.close()
 
+DEBUG = SERVER_DATA['DEBUG']
 LANGUAGE_CODE = SERVER_DATA['LANGUAGE_CODE']
 TIME_ZONE = SERVER_DATA['TIME_ZONE']
 USE_I18N = True

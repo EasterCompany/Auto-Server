@@ -2,6 +2,7 @@
 from sys import argv, path
 
 # Local Commands
+from .library import console
 from .commands import install, git, django, node, pytest, pa
 
 tools_path = '/'.join(__file__.split('/')[:-1])
@@ -60,6 +61,7 @@ def run_tool(command, index=0):
                     node.clients.install(argument)
                 return
 
+        print('\nInstalling Overlord-Tools...')
         install.create_o_script()
         git.update.all()
 
@@ -70,9 +72,11 @@ def run_tool(command, index=0):
         set_branch_origins()
         set_branch_origins('clients')
         set_branch_origins('tools')
+        print(' ')
         install.make_server_config(project_path)
         install.django_files(project_path)
         install.secrets_file(project_path)
+        print('\n', console.col('Done.', 'green'), '\n')
 
     elif command == 'update': git.update.all()
 
