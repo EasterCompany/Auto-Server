@@ -138,14 +138,20 @@ def run_tool(command, index=0):
 
     elif command == 'server':
         if arguments_remaining == 1:
-            if arguments[0] == 'apps': pa.api.get_app_data()
-            elif arguments[0] == 'consoles': pa.api.get_con_data()
-            elif arguments[0] == 'cpu': pa.api.get_cpu_data()
-            elif arguments[0] == 'tasks': pa.api.get_task_data()
-            elif arguments[0] == 'reload': pa.api.post_reload_req()
+            if arguments[0] == 'apps':
+                return pa.apps.display()
+            elif arguments[0] == 'consoles':
+                return pa.consoles.display()
+            elif arguments[0] == 'cpu':
+                return pa.cpu.display()
+            elif arguments[0] == 'tasks':
+                return pa.tasks.display()
+            elif arguments[0] == 'reload':
+                return pa.reload.request()
             elif arguments[0] == 'upgrade':
-                pa.api.post_upgrade_req(), pa.api.post_reload_req()
-        else: pa.api.error_message()
+                return pa.upgrade.request(), pa.reload.request()
+        else:
+            return pa.api.error_message()
 
     elif command == 'help': help()
 

@@ -136,7 +136,7 @@ def make_server_config(project_path='.'):
 
     def is_app(f):
         ignored_dirs = (
-            'clients', 'tools', 'web', 'static', 'media'
+            'clients', 'tools', 'web', 'static', 'media', 'tasks'
         )
         if f.is_dir() and not f.name.startswith('.') and not f.name in ignored_dirs:
             return True
