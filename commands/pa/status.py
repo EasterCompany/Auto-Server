@@ -4,7 +4,6 @@ from tools.library import console
 
 
 def request():
-    print('\nUpgrading', domain, '...\n')
-    data = fetch_domain('upgrade')
+    print('\nVerifying', domain, '...\n')
+    data = fetch_domain('status')
     print('status:', console.colour_status_code(data['status']), '\n')
-    if data['status'] != 'OK': exit()

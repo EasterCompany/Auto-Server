@@ -149,7 +149,9 @@ def run_tool(command, index=0):
             elif arguments[0] == 'reload':
                 return pa.reload.request()
             elif arguments[0] == 'upgrade':
-                return pa.upgrade.request(), pa.reload.request()
+                pa.upgrade.request()
+                pa.reload.request()
+                return pa.status.request()
         else:
             return pa.api.error_message()
 

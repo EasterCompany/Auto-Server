@@ -81,12 +81,14 @@ def fetch_domain(api, args=None, method='GET'):
             'secret': '{key}'.format(key=secret)
         }
     )
-    if not response.status_code == 200:
+    if not response.status_code == 200 and not api == 'status':
         return print('Got unexpected status code {}: {!r}'.format(
                 response.status_code,
                 response.content
             )
         ), exit()
+    elif api == 'status' and not response.status_code == 200:
+        return {'status': response.status_code}
     return loads(response.content)
 
 
