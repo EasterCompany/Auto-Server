@@ -149,6 +149,8 @@ def run_tool(command, index=0):
                 return pa.tasks.display()
             elif arguments[0] == 'reload':
                 return pa.reload.request()
+            elif arguments[0] == 'status':
+                return pa.status.request()
             elif arguments[0] == 'upgrade':
                 pa.upgrade.request()
                 pa.reload.request()

@@ -148,12 +148,20 @@ def create(name):
         new_file = open('clients/%s/public/index.html' % name, 'w')
         new_file.write(content), new_file.close()
 
-    # Update manifest
+    # Update manifest.json
     print('Update manifest data...')
     with open('clients/{name}/public/manifest.json'.format(name=name)) as manifest:
         content = manifest.read()
         content = content.replace('app-name', name)
         new_file = open('clients/%s/public/manifest.json' % name, 'w')
+        new_file.write(content), new_file.close()
+
+    # Update package.json
+    print('Update package data...')
+    with open('clients/{name}/package.json'.format(name=name)) as package:
+        content = package.read()
+        content = content.replace('app-name', name)
+        new_file = open('clients/%s/package.json' % name, 'w')
         new_file.write(content), new_file.close()
 
     # Update environment variables

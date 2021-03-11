@@ -11,7 +11,7 @@ using a majority of the same code.
 some features may be specific to our development & hosting solutions but most will be
 useful to all developers regardless of your host method.
 
-## Patch Notes 0.4.5
+## Patch Notes 0.4.6
 
 Listed below is `new features` & `bug fixes` for the next release. <br>
 Tasks marked (:heavy_check_mark:) have been completed. <br>
@@ -20,13 +20,15 @@ Tasks left unmarked are currently in development or will begin development soon.
 
 ### New Features
 
+- Create a new typscript-pwa react client :heavy_check_mark:
 - Request server task status :heavy_check_mark:
 - Request server cpu status :heavy_check_mark:
 - Request server console status :heavy_check_mark:
 - Request server webapps status :heavy_check_mark:
 - Request server to reload :heavy_check_mark:
 - Request server to upgrade :heavy_check_mark:
-- Request server to upgrade & reload :heavy_check_mark:
+- Request server to return status :heavy_check_mark:
+- Request server to upgrade, reload & verify  :heavy_check_mark:
 
 ### Bug Fixes
 
@@ -258,6 +260,17 @@ To run your production Server and Client(s), use the following command:
 this will run all unit tests - and if they all pass, then the client will be built and
 optimized for production. Then the server will be started with the production ready client
 on a single connection from the same port which is `localhost:8000` by default.
+
+## Create New Client
+
+To create a new client from our typscript-pwa template, use the following command:
+
+```bash
+./o create -"app_name"
+```
+
+and a new client will appear in the `clients` directory ready for deployment.
+The URL of the application will need to be added to your django configuration manually.
 
 ## Variable Meta Data
 
