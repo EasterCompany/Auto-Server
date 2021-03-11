@@ -2,10 +2,14 @@
 from sys import path
 from json import loads
 from time import sleep
+from shutil import rmtree
 from os.path import exists
 from threading import Thread
 from datetime import datetime
 from os import chdir, system, rename, remove
+
+# Tools import
+from tools.library import console
 
 # Variable app meta data
 meta_data = {
@@ -111,6 +115,61 @@ def build_all():
         run(client, build=True, new_thread=False)
 
 
+# Create new client
+def create(name):
+
+    # Make directory checks
+    if exists('clients/' + name):
+        return print("\n ABORTED: %s already exists \n" % name)
+
+    # Fetch template from github
+    system('''
+            echo '' && cd clients &&
+            git clone git@github.com:EasterCompany/React-Template.git {name} &&
+            cd .. && echo ''
+        '''.format(name=name)
+    )
+
+    # De-git repository
+    print('De-git repository...')
+    remove('clients/{name}/README.md'.format(name=name))
+    remove('clients/{name}/.gitignore'.format(name=name))
+    rmtree('clients/{name}/.git'.format(name=name))
+
+    # Update meta_data
+    print('Update index data...')
+    rename(
+        'clients/{name}/public/static/app-name'.format(name=name),
+        'clients/{name}/public/static/{name}'.format(name=name)
+    )
+    with open('clients/{name}/public/index.html'.format(name=name)) as index_content:
+        content = index_content.read()
+        content = content.replace('{#app_name#}', name)
+        new_file = open('clients/%s/public/index.html' % name, 'w')
+        new_file.write(content), new_file.close()
+
+    # Update manifest
+    print('Update manifest data...')
+    with open('clients/{name}/public/manifest.json'.format(name=name)) as manifest:
+        content = manifest.read()
+        content = content.replace('app-name', name)
+        new_file = open('clients/%s/public/manifest.json' % name, 'w')
+        new_file.write(content), new_file.close()
+
+    # Update environment variables
+    print('Update environment data...\n')
+    clients_data = {}
+    next_port = 8100
+    with open('.config/clients.json') as clients_json:
+        clients_data = loads(clients_json.read())
+        next_port += len(clients_data)
+    with open('clients/%s/.env' % name, 'w+') as env_file:
+        env_file.write('PORT=%s' % next_port)
+
+    print(console.col(' Done!', 'green'))
+    print('\ninstall this app with `./o install -client -%s` \n' % name)
+
+
 # Module error message
 def error_message():
     return print('''
@@ -118,6 +177,7 @@ def error_message():
 
         ./o runclient -client_name
         ./o build -client_name
+        ./o create -client_name
 
     or use -all to effect all clients
 

@@ -53,7 +53,8 @@ def run_tool(command, index=0):
 
     elif command == 'install':
 
-        if arguments_remaining > 0 and arguments[0] == 'clients':
+        if arguments_remaining > 0 and \
+        (arguments[0] == 'clients' or arguments[0] == 'client'):
             if arguments_remaining == 1:
                 return node.clients.install()
             elif arguments_remaining > 1:
@@ -154,6 +155,12 @@ def run_tool(command, index=0):
                 return pa.status.request()
         else:
             return pa.api.error_message()
+
+    elif command == 'create':
+        if arguments_remaining == 1:
+            return node.clients.create(arguments[0])
+        else:
+            return node.clients.error_message()
 
     elif command == 'help': help()
 
