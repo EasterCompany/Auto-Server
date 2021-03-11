@@ -1,6 +1,7 @@
 # Standard Library Imports
 import json
 from sys import path
+from os import system
 from datetime import datetime
 # Local Module Imports
 from tools.commands import django
@@ -61,12 +62,12 @@ def upgrade_request(secret):
         return BAD_status
     print('    succeeded.\n')
     try:
-        update.all()                        # Pull updates from git repository
-        django.server.collect_staticfs()    # Collect new static files
+        update.all()                            # Pull updates from git repository
+        system(path[0] + '/o collectstatic')    # Collect new static files
         status = OK_status
     except Exception as e:
         status = str(e)
-    update_logs(                            # Log upgrade request
+    update_logs(                                # Log upgrade request
         {
             'req': req,
             'status': status,
