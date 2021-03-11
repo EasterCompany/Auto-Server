@@ -125,6 +125,7 @@ def run_tool(command, index=0):
             return node.clients.build_all()
         for arg in arguments:
             node.clients.build(arg)
+        return django.server.collect_staticfs()
 
     elif command == 'migrate': django.server.migrate_database()
 

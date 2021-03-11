@@ -16,7 +16,8 @@ def _server(start=True, migrate=False, collectstatic=False):
         cmd('makemigrations')
         cmd('migrate')
     if collectstatic:
-        cmd('collectstatic --noinput'), print('')
+        cmd('collectstatic --noinput')
+        print('')
     if start:
         cmd('runserver')
 
