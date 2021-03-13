@@ -165,6 +165,12 @@ def run_tool(command, index=0):
         else:
             return node.clients.error_message()
 
+    elif command == 'share':
+        if arguments_remaining == 2:
+            return node.share.target(arguments[0], arguments[1])
+        else:
+            return node.share.error_message()
+
     elif command == 'help': help()
 
     else: print('invalid input \n  >> ./o', ' '.join(command_line))
