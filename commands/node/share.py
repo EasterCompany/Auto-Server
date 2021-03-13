@@ -30,11 +30,11 @@ Example Usage (working example):
 '''
 
 import json
-from os import remove
+from os import mkdir
 from sys import path
 from shutil import copy
-from os.path import exists, isdir
 from tools.library import console
+from os.path import exists, isdir
 from distutils.dir_util import copy_tree
 
 log_path = path[0] + '/clients/shared/.log'
@@ -64,6 +64,7 @@ def add_to_log(shared_path, client_name, share_type):
             "file": [],
             "module": []
         }
+    if shared_path == '.log': return None
 
     # Optimize file sharing
     for ms in log[client_name]['module']:
@@ -143,7 +144,7 @@ def add_to_log(shared_path, client_name, share_type):
     '''.format(
         path=console.col(shared_path, 'green'),
         name=console.col(client_name, 'green')
-    )), exit()
+    )), __update_shared_files__(), exit()
 
 
 def share_module(module_path, client):
@@ -171,6 +172,26 @@ def target(path_to_target, client):
     if isdir(path[0] + '/clients/shared/' + path_to_target):
         return share_module(path_to_target, client)
     return share_file(path_to_target, client)
+
+
+def __update_shared_files__():
+    if not exists(log_path):
+        return None
+    logs = get_log()
+    spath = path[0] + '/clients/shared/'
+
+    for client in logs:
+        cpath = logs[client]['path'] + '/'
+        for mod in logs[client]["module"]:
+            copy_tree(spath + mod, cpath + mod)
+
+        for fls in logs[client]["file"]:
+            dirs = fls.split('/')
+            for i in range(len(dirs)):
+                npath = cpath + '/'.join(dirs[:i])
+                if not exists(npath):
+                    mkdir(npath)
+            copy(spath + fls, cpath + fls)
 
 
 def error_message():

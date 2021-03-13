@@ -11,7 +11,7 @@ using a majority of the same code.
 some features may be specific to our development & hosting solutions but most will be
 useful to all developers regardless of your host method.
 
-## Patch Notes 0.4.6
+## Patch Notes 0.4.7
 
 Listed below is `new features` & `bug fixes` for the next release. <br>
 Tasks marked (:heavy_check_mark:) have been completed. <br>
@@ -20,6 +20,7 @@ Tasks left unmarked are currently in development or will begin development soon.
 
 ### New Features
 
+- Share apps, assets, components & libraries across React Clients :heavy_check_mark:
 - Create a new typscript-pwa react client :heavy_check_mark:
 - Request server task status :heavy_check_mark:
 - Request server cpu status :heavy_check_mark:
@@ -282,6 +283,34 @@ Here is a list of the all the currently supported variable meta data tags
 | Tag                | Content               |
 | ------------------ | --------------------- |
 | time_of_last_build | %Y-%m-%dT%H:%M:%S     |
+
+## Sharing Code
+
+You can allow the sharing of source code across multiple clients & projects by using
+the shared directory & `share` command.
+
+```bash
+./o share -"module_path" -"client_name"
+```
+
+For example; we have a file within the `clients/shared` directory at
+`library/server/address.ts` we can share that single file with a client and keep it
+automatically updated by using the following command;
+
+```bash
+./o share -library/server/address.ts -"client_name"
+```
+
+Or we can share the entire `library/server` module by using the following command;
+
+```bash
+./o share -library/server -"client_name"
+```
+
+A shared directory will appear inside the clients src directory with all shared modules
+appearing inside that folder, and they will be updated to match the contents of the
+original file everytime OLT is started - so whenever you run a client or server from OLT
+the new contents of any file will be automatically distributed to your clients.
 
 ## PA Data Tools
 
