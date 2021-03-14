@@ -30,9 +30,9 @@ Example Usage (working example):
 '''
 
 import json
-from os import mkdir
 from sys import path
 from shutil import copy
+from os import mkdir, remove
 from tools.library import console
 from os.path import exists, isdir
 from distutils.dir_util import copy_tree
@@ -184,6 +184,8 @@ def __update_shared_files__():
         cpath = logs[client]['path'] + '/'
         for mod in logs[client]["module"]:
             copy_tree(spath + mod, cpath + mod)
+            if exists(cpath + mod + '/.log'):
+                remove(cpath + mod + '/.log')
 
         for fls in logs[client]["file"]:
             dirs = fls.split('/')

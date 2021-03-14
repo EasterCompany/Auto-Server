@@ -77,14 +77,15 @@ def make_clients_config(project_path='.'):
                 if key in scripts:
                     scripts[key] = package_json["scripts"][key]
 
-        clients[client.split("/")[-1]] = {
-            "path": client,
-            "node": node,
-            "test": scripts["test"],
-            "start": scripts["start"],
-            "build": scripts["build"],
-            "version": scripts["version"]
-        }
+        if client.split("/")[-1] != 'shared':
+            clients[client.split("/")[-1]] = {
+                "path": client,
+                "node": node,
+                "test": scripts["test"],
+                "start": scripts["start"],
+                "build": scripts["build"],
+                "version": scripts["version"]
+            }
     dump_json('clients', clients, project_path)
 
 def make_server_config(project_path='.'):
