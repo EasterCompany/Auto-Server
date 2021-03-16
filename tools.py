@@ -107,14 +107,14 @@ def run_tool(command, index=0):
         if arguments_remaining < 1 and not command == 'run':
             return node.clients.error_message()
         elif arguments_remaining == 1 and arguments[0] == 'all':
-            return node.clients.run_all()
+            node.clients.run_all()
         elif arguments_remaining >= 1:
             for arg in arguments:
-                node.clients.run(arg, False, False)
-            return
+                node.clients.run(arg, False, True)
         elif command == 'run':
             node.clients.run_all(none_on_main_thread=True)
-            django.server.run()
+        django.server.start()
+        return node.share.file_updater_thread()
 
     elif command == 'runserver': django.server.run()
 

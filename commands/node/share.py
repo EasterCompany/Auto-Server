@@ -30,12 +30,14 @@ Example Usage (working example):
 '''
 
 import json
+import threading
 from sys import path
+from time import sleep
 from shutil import copy
-from os import mkdir, remove
 from tools.library import console
-from os.path import exists, isdir
-from distutils.dir_util import copy_tree
+from os import mkdir, remove, walk
+from os.path import exists, isdir, getmtime
+from distutils.dir_util import copy_tree, remove_tree
 
 log_path = path[0] + '/clients/shared/.log'
 
@@ -174,26 +176,92 @@ def target(path_to_target, client):
     return share_file(path_to_target, client)
 
 
+def __update_clients_files__(client, logs, spath):
+    if client not in logs:
+        return None
+    cpath = path[0] + '/' + logs[client]['path'] + '/'
+
+    def do_copy(orig, dest, is_dir=False):
+
+        def get_dir_time(dir_path):
+            update_times = [0, ]
+            for root,_,fs in walk(dir_path):
+                if not root.endswith('/'):
+                    root += '/'
+                for f in fs:
+                    if exists(root + f):
+                        update_times.append(
+                            int(getmtime(root + f))
+                        )
+            return max(update_times)
+
+        if is_dir:
+            orig_time = get_dir_time(orig)
+        else:
+            orig_time = getmtime(orig)
+
+        if exists(dest):
+            if is_dir:
+                dest_time = get_dir_time(dest)
+            else:
+                dest_time = getmtime(dest)
+        else:
+            dest_time = 0
+
+        if orig_time > dest_time:
+            if is_dir:
+                return copy_tree(orig, dest)
+            return copy(orig, dest)
+
+    for mod in logs[client]["module"]:
+        do_copy(spath + mod, cpath + mod, True)
+        if exists(cpath + mod + '/.log'):
+            remove(cpath + mod + '/.log')
+        # Delete files from client-shared if deleted from shared-root
+        for root,_,fs in walk(cpath + mod):
+            if not root.endswith('/'):
+                root += '/'
+            sroot = root.replace(cpath, spath)
+            for f in fs:
+                if not exists(sroot + f):
+                    remove(root + f)
+
+    for fls in logs[client]["file"]:
+        dirs = fls.split('/')
+        for i in range(len(dirs)):
+            npath = cpath + '/'.join(dirs[:i])
+            if not exists(npath):
+                mkdir(npath)
+        do_copy(spath + fls, cpath + fls, False)
+
+
 def __update_shared_files__():
     if not exists(log_path):
         return None
     logs = get_log()
     spath = path[0] + '/clients/shared/'
-
     for client in logs:
-        cpath = logs[client]['path'] + '/'
-        for mod in logs[client]["module"]:
-            copy_tree(spath + mod, cpath + mod)
-            if exists(cpath + mod + '/.log'):
-                remove(cpath + mod + '/.log')
+        __update_clients_files__(client, logs, spath)
 
-        for fls in logs[client]["file"]:
-            dirs = fls.split('/')
-            for i in range(len(dirs)):
-                npath = cpath + '/'.join(dirs[:i])
-                if not exists(npath):
-                    mkdir(npath)
-            copy(spath + fls, cpath + fls)
+
+def file_updater_thread():
+    spath = path[0] + '/clients/shared/'
+
+    def get_clients():
+        clients = []
+        for threads in threading.enumerate():
+            if threads.name.endswith('-client'):
+                client = ''.join(threads.name.split('-client')[:-1])
+                clients.append(client)
+        return clients
+
+    clients = get_clients()
+    while len(clients) > 0:
+        logs = get_log()
+        for client in clients:
+            __update_clients_files__(client, logs, spath)
+        sleep(.5)
+        clients = get_clients()
 
 
 def error_message():

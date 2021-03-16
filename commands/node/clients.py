@@ -53,7 +53,7 @@ def client(app_data, build=False):
 new_client = lambda app_name, app_data, build: Thread(
     None,
     client,
-    app_name,
+    app_name + '-client',
     (app_data, build)
 )
 
