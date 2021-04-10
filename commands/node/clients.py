@@ -32,10 +32,13 @@ def update_client_meta_data(app_path):
     index_file = open(index_path, 'w+')
     index_file.write(index_file_content)
     index_file.close()
-    # Rename and Remove build files for indexing
+    # Rename html tag from built index file
     rename(app_path + '/build/index.html', app_path + '/build/index')
+    # Remove status code specific html files
     if exists(app_path + '/build/200.html'):
         remove(app_path + '/build/200.html')
+    if exists(app_path + '/build/404.html'):
+        remove(app_path + '/build/404.html')
 
 
 # Client thread function
