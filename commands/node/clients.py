@@ -60,10 +60,13 @@ new_client = lambda app_name, app_data, build: Thread(
     (app_data, build)
 )
 
-# All clients data from config file
-clients_file = open(path[0] + '/.config/clients.json')
-clients_json = loads(clients_file.read())
-clients_file.close()
+try:
+    # All clients data from config file
+    clients_file = open(path[0] + '/.config/clients.json')
+    clients_json = loads(clients_file.read())
+    clients_file.close()
+except Exception as e:
+    client_json = {}
 
 
 # Install client
