@@ -21,6 +21,10 @@ meta_data = {
 def update_client_meta_data(app_path):
     # Read index.html file content
     index_path = app_path + '/build/index.html'
+    # Pass if build doesn't exist
+    if not exists(index_path):
+        return False
+    # Read Content
     index_file = open(index_path)
     index_file_content = index_file.read()
     index_file.close()
@@ -39,6 +43,7 @@ def update_client_meta_data(app_path):
         remove(app_path + '/build/200.html')
     if exists(app_path + '/build/404.html'):
         remove(app_path + '/build/404.html')
+    return True
 
 
 # Client thread function
@@ -60,13 +65,13 @@ new_client = lambda app_name, app_data, build: Thread(
     (app_data, build)
 )
 
-try:
-    # All clients data from config file
+# All clients data from config file
+if exists(path[0] + '/.config/clients.json'):
     clients_file = open(path[0] + '/.config/clients.json')
     clients_json = loads(clients_file.read())
     clients_file.close()
-except Exception as e:
-    client_json = {}
+else:
+    clients_json = {}
 
 
 # Install client
