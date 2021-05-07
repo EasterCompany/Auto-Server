@@ -2,6 +2,7 @@
 from os import system
 from threading import Thread
 from sys import executable, path
+from web.settings import SERVER_DATA
 
 
 # Server thread function
@@ -19,7 +20,10 @@ def _server(start=True, migrate=False, collectstatic=False):
         cmd('collectstatic --noinput')
         print('')
     if start:
-        cmd('runserver')
+        if SERVER_DATA['STANDALONE']:
+            cmd('runserver 3000')
+        else:
+            cmd('runserver')
 
 
 # Server thread

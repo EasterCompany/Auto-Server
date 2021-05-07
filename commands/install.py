@@ -92,6 +92,7 @@ def make_server_config(project_path='.'):
     print('Generating server config...')
     server_core_data = {
         "DEBUG": True,
+        "STANDALONE": False,
         "LANGUAGE_CODE": 'en-gb',
         "TIME_ZONE": 'UTC',
         "ALLOWED_HOSTS": [
