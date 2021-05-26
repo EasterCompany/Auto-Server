@@ -160,6 +160,8 @@ def secrets_file(project_path='.'):
         "SECRET_KEY": get_random_secret_key(),
         "PA_USER_ID": "",
         "PA_API_KEY": "",
-        "DOMAIN_URL": ""
+        "DOMAIN_URL": "",
+        "EMAIL_USER": "",
+        "EMAIL_PASS": ""
     }
     return dump_json('secret', token_data, project_path)
