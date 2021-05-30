@@ -6,10 +6,12 @@ from .commands.install import \
 from .commands.node.share import \
     __update_shared_files__
 
-__version__ = 0.4
+__vminmax__ = ['1', '0', '0']
+__version__ = str('.'.join(__vminmax__))
 __init_conifg_directory__()
 __init_logs_directory__()
 __update_shared_files__()
+
 make_clients_config(path[0])
 
 if not exists (path[0] + '/.config/server.json'):

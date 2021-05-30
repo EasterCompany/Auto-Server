@@ -4,7 +4,6 @@ from sys import path
 from os import system
 from datetime import datetime
 # Local Module Imports
-from tools.commands import django
 from tools.commands.git import update
 
 # Load requests logs file for logging
